@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:memo_deck/features/home/bloc/deck_management_cubit.dart';
 import '../../../shared/models/deck_entry.dart';
 
 class DeckEntryTile extends StatelessWidget {
@@ -35,8 +37,15 @@ class DeckEntryTile extends StatelessWidget {
 
   Widget _deckMenu(BuildContext context) {
     return PopupMenuButton<String>(
-      onSelected: (value) {
-        context.pushNamed('AddFlashcardPage', extra: deck.deckId);
+      onSelected: (value) async {
+        switch(value)
+        {
+          case 'add_card': context.pushNamed('AddFlashcardPage', extra: deck.deckId);
+          case 'remove_deck': {
+            final cubit = context.read<DeckManagementCubit>();
+            cubit.removeDeck(deck);
+          }
+        }
       },
       itemBuilder: (context) => [
         const PopupMenuItem(
@@ -49,9 +58,23 @@ class DeckEntryTile extends StatelessWidget {
                 ),
                 Text('Add Card'),
               ],
-            ))
+            ),
+        ),
+        const PopupMenuItem(
+            value: 'remove_deck',
+            child: Row(
+              children: [
+                Icon(Icons.delete),
+                SizedBox(
+                  width: 8,
+                ),
+                Text('Remove Deck'),
+              ],
+            ),
+        ),
       ],
       icon: const Icon(Icons.more_vert),
     );
   }
+
 }

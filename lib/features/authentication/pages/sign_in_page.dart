@@ -7,6 +7,7 @@ import 'package:memo_deck/features/authentication/widgets/auth_action_button.dar
 import 'package:memo_deck/features/authentication/bloc/auth_cubit.dart';
 import 'package:memo_deck/core/service_locator.dart';
 import 'package:memo_deck/features/authentication/widgets/password_field.dart';
+import 'package:memo_deck/shared/utilities/snackbar_utils.dart';
 
 import '../data/auth_service.dart';
 import '../widgets/email_field.dart';
@@ -41,9 +42,7 @@ class _SignInPageState extends State<SignInPage> {
               context.goNamed('HomePage');
             }
             if (state is SignedOutState && state.error != null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.error!)),
-              );
+              SnackBarUtils.showErrorSnackBar(context, state.error!);
             }
           },
           child: Scaffold(

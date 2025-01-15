@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +6,7 @@ import 'package:memo_deck/features/authentication/widgets/action_link_footer.dar
 import 'package:memo_deck/features/authentication/widgets/auth_action_button.dart';
 import 'package:memo_deck/features/authentication/bloc/auth_cubit.dart';
 import 'package:memo_deck/core/service_locator.dart';
+import 'package:memo_deck/shared/utilities/snackbar_utils.dart';
 
 import '../data/auth_service.dart';
 import '../widgets/email_field.dart';
@@ -42,9 +42,7 @@ class _SignUpPageState extends State<SignUpPage> {
               context.goNamed('HomePage');
             }
             if (state is SignedOutState && state.error != null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.error!)),
-              );
+              SnackBarUtils.showErrorSnackBar(context, state.error!);
             }
           },
           child: Scaffold(
@@ -79,7 +77,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                           AuthActionButton(
                             onPressed: () async {
-                              if(_formKey.currentState!.validate()) {
+                              if (_formKey.currentState!.validate()) {
                                 final cubit = context.read<AuthCubit>();
                                 await cubit.signUp(_emailController.text,
                                     _passwordController.text);

@@ -5,6 +5,7 @@ import 'package:memo_deck/features/add_flashcard/bloc/deck_fetch_cubit.dart';
 import 'package:memo_deck/features/add_flashcard/bloc/flashcard_add_cubit.dart';
 import 'package:memo_deck/features/home/data/flashcards_data_source.dart';
 import 'package:memo_deck/shared/models/deck_entry.dart';
+import 'package:memo_deck/shared/utilities/snackbar_utils.dart';
 import 'package:memo_deck/shared/widgets/loading_indicator.dart';
 
 import '../../../shared/models/flashcard.dart';
@@ -54,15 +55,10 @@ class _AddFlashCardPageState extends State<AddFlashCardPage> {
           bloc: context.read<AddFlashcardCubit>(),
           listener: (context, state) {
             if (state is FlashcardErrorState) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                    content: Text('Failed to add flashcard: ${state.err}')),
-              );
+              SnackBarUtils.showErrorSnackBar(context, 'Failed to add flashcard: ${state.err}');
             } else if (state is FlashcardAddedState) {
               clearFields();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('New flashcard added')),
-              );
+              SnackBarUtils.showSuccessSnackBar(context, 'New flashcard added');
             }
           },
           child: Scaffold(

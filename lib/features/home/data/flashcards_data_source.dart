@@ -56,4 +56,22 @@ class FlashcardsDataSource {
       throw Exception('Failed to add flashcard: $e');
     }
   }
+
+  Future<void> removeFlashcards(String deckId) async {
+    try {
+      QuerySnapshot querySnapshot = await _flashcards.where('deckId', isEqualTo: deckId).get();
+      List<Future> deleteOperations = querySnapshot.docs.map((doc) => doc.reference.delete()).toList();
+      await Future.wait(deleteOperations);
+    } catch (e) {
+      throw Exception('Failed to remove flashcards: $e');
+    }
+  }
+
+  Future<void> removeDeckEntry(String deckId) async{
+    try{
+      await _decks.doc(deckId).delete();
+    } catch(e){
+      throw Exception('Failed to remove deck entry: $e');
+    }
+  }
 }

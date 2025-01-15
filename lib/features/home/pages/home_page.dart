@@ -4,35 +4,39 @@ import 'package:go_router/go_router.dart';
 import 'package:memo_deck/core/service_locator.dart';
 import 'package:memo_deck/core/theme/app_theme.dart';
 import 'package:memo_deck/features/authentication/data/auth_service.dart';
-import 'package:memo_deck/features/home/bloc/deck_add_cubit.dart';
+import 'package:memo_deck/features/home/bloc/deck_management_cubit.dart';
 import 'package:memo_deck/features/home/data/flashcards_data_source.dart';
 import 'package:memo_deck/shared/models/deck_entry.dart';
+import 'package:memo_deck/shared/utilities/snackbar_utils.dart';
 import 'package:memo_deck/shared/widgets/loading_indicator.dart';
 
 import '../widgets/deck_list.dart';
 
 // TODO: dodaj opcje usuniecia decku
 // TODO: popraw okno dodawania decku
+// TODO: dodac jakis pading na dole bo nie mozna klikac w action button
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          DeckAddCubit(dataSource: serviceLocator<FlashcardsDataSource>()),
+      create: (context) => DeckManagementCubit(
+          dataSource: serviceLocator<FlashcardsDataSource>()),
       child: Builder(builder: (context) {
-        final cubit = context.read<DeckAddCubit>();
+        final cubit = context.read<DeckManagementCubit>();
 
-        return BlocListener<DeckAddCubit, DeckAddState>(
+        return BlocListener<DeckManagementCubit, DeckState>(
           listener: (context, state) {
-            if (state is DeckAddErrorState) {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(state.err)));
-            } else if (state is DeckAddSuccessState) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text(
-                      'Deck "${state.deckEntry.name}" successfully added')));
+            if (state is DeckErrorState) {
+              SnackBarUtils.showErrorSnackBar(context, state.err);
+            } else if (state is DeckAddedState) {
+              SnackBarUtils.showSuccessSnackBar(context,
+                  'Deck "${state.deckEntry.name}" successfully added');
+            }
+            else if(state is DeckRemovedState){
+              SnackBarUtils.showSuccessSnackBar(context,
+              'Deck "${state.deckEntry.name}" removed');
             }
           },
           child: Scaffold(

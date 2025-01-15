@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:memo_deck/features/quiz/widgets/animated_flip_card.dart';
-import 'package:memo_deck/shared/models/flashcard.dart';
 
 class QuizPage extends StatelessWidget {
   const QuizPage({super.key, required this.deckId});

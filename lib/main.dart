@@ -7,7 +7,6 @@ import 'package:memo_deck/features/authentication/pages/splash_page.dart';
 import 'package:memo_deck/features/authentication/firebase/firebase_options.dart';
 import 'package:memo_deck/core/service_locator.dart';
 import 'package:memo_deck/features/quiz/pages/quiz_page.dart';
-import 'package:memo_deck/shared/models/deck_entry.dart';
 import 'features/authentication/pages/sign_in_page.dart';
 import 'features/authentication/pages/sign_up_page.dart';
 import 'features/home/pages/home_page.dart';
