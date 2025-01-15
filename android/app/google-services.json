@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "176363757747",
+    "project_id": "memodeck-a7965",
+    "storage_bucket": "memodeck-a7965.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:176363757747:android:8d3a57121cc4c977b950c6",
+        "android_client_info": {
+          "package_name": "com.example.memo_deck"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6naSjkBe38JQYI_oOeT0lu9SvxUqc1NY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
