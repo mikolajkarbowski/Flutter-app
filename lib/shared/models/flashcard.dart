@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'flashcard.g.dart';
 
 @JsonSerializable()
-class Flashcard {
+class Flashcard{
   Flashcard(
       {required this.cardId,
       required this.deckId,

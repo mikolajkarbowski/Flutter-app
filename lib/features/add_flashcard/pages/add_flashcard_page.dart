@@ -55,7 +55,8 @@ class _AddFlashCardPageState extends State<AddFlashCardPage> {
           bloc: context.read<AddFlashcardCubit>(),
           listener: (context, state) {
             if (state is FlashcardErrorState) {
-              SnackBarUtils.showErrorSnackBar(context, 'Failed to add flashcard: ${state.err}');
+              SnackBarUtils.showErrorSnackBar(
+                  context, 'Failed to add flashcard: ${state.err}');
             } else if (state is FlashcardAddedState) {
               clearFields();
               SnackBarUtils.showSuccessSnackBar(context, 'New flashcard added');
@@ -71,6 +72,7 @@ class _AddFlashCardPageState extends State<AddFlashCardPage> {
                 DeckListInitialState() => LoadingIndicator(),
                 DeckListLoadingState() => LoadingIndicator(),
                 DeckListErrorState() => Container(
+                    //TODO: dodaj obsluge tego bledu
                     color: Colors.red,
                   ),
                 DeckListReadyState() => _addPage(context, state.deckEntries),

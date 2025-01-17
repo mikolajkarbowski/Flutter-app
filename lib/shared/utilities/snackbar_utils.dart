@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SnackBarUtils {
-
-  static void showSnackBar(BuildContext context, String message, {Duration duration = const Duration(seconds: 3)}) {
+  static void showSnackBar(BuildContext context, String message,
+      {Duration duration = const Duration(seconds: 3)}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
@@ -11,7 +11,8 @@ class SnackBarUtils {
     );
   }
 
-  static void showSuccessSnackBar(BuildContext context, String message, {Duration duration = const Duration(seconds: 3)}) {
+  static void showSuccessSnackBar(BuildContext context, String message,
+      {Duration duration = const Duration(seconds: 3)}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Row(
@@ -26,7 +27,8 @@ class SnackBarUtils {
     );
   }
 
-  static void showErrorSnackBar(BuildContext context, String message, {Duration duration = const Duration(seconds: 3)}) {
+  static void showErrorSnackBar(BuildContext context, String message,
+      {Duration duration = const Duration(seconds: 3)}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Row(

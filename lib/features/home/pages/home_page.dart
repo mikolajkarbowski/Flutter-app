@@ -12,9 +12,7 @@ import 'package:memo_deck/shared/widgets/loading_indicator.dart';
 
 import '../widgets/deck_list.dart';
 
-// TODO: dodaj opcje usuniecia decku
-// TODO: popraw okno dodawania decku
-// TODO: dodac jakis pading na dole bo nie mozna klikac w action button
+// TODO: dodaj sprawdzenie czy deck o tej nazwie już nie istnieje
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -31,12 +29,11 @@ class HomePage extends StatelessWidget {
             if (state is DeckErrorState) {
               SnackBarUtils.showErrorSnackBar(context, state.err);
             } else if (state is DeckAddedState) {
-              SnackBarUtils.showSuccessSnackBar(context,
-                  'Deck "${state.deckEntry.name}" successfully added');
-            }
-            else if(state is DeckRemovedState){
-              SnackBarUtils.showSuccessSnackBar(context,
-              'Deck "${state.deckEntry.name}" removed');
+              SnackBarUtils.showSuccessSnackBar(
+                  context, 'Deck "${state.deckEntry.name}" successfully added');
+            } else if (state is DeckRemovedState) {
+              SnackBarUtils.showSuccessSnackBar(
+                  context, 'Deck "${state.deckEntry.name}" removed');
             }
           },
           child: Scaffold(
@@ -58,6 +55,7 @@ class HomePage extends StatelessWidget {
                     serviceLocator<FlashcardsDataSource>().deckEntriesStream,
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
+                    //TODO: dodac obsluge
                     return Container(
                       color: Colors.red,
                     );
@@ -102,6 +100,7 @@ class AddDeckDialog extends StatefulWidget {
 
 class _AddDeckDialogState extends State<AddDeckDialog> {
   final _deckNameController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -112,13 +111,30 @@ class _AddDeckDialogState extends State<AddDeckDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      content: TextField(
-        controller: _deckNameController,
-        autofocus: true,
+      content: Form(
+        key: _formKey,
+        child: TextFormField(
+          controller: _deckNameController,
+          autofocus: true,
+          decoration: InputDecoration(
+            labelText: 'Deck name',
+            border: OutlineInputBorder(),
+          ),
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'This field cannot be empty';
+            }
+            return null;
+          },
+        ),
       ),
       actions: [
         TextButton(
-            onPressed: () => context.pop(_deckNameController.text),
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                context.pop(_deckNameController.text);
+              }
+            },
             child: const Text('Add')),
       ],
     );

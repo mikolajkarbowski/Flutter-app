@@ -16,12 +16,13 @@ class DeckManagementCubit extends Cubit<DeckState> {
       emit(DeckState.err(err: err));
     }
   }
-  Future<void> removeDeck(DeckEntry deck) async{
-    try{
+
+  Future<void> removeDeck(DeckEntry deck) async {
+    try {
       await dataSource.removeFlashcards(deck.deckId);
       await dataSource.removeDeckEntry(deck.deckId);
       emit(DeckState.deckRemoved(deckEntry: deck));
-    }catch(err){
+    } catch (err) {
       emit(DeckState.err(err: err));
     }
   }
@@ -31,7 +32,8 @@ sealed class DeckState with EquatableMixin {
   DeckState();
   factory DeckState.initial() = DeckInitialState;
   factory DeckState.deckAdded({required DeckEntry deckEntry}) = DeckAddedState;
-  factory DeckState.deckRemoved({required DeckEntry deckEntry}) = DeckRemovedState;
+  factory DeckState.deckRemoved({required DeckEntry deckEntry}) =
+      DeckRemovedState;
   factory DeckState.err({dynamic err}) = DeckErrorState;
 }
 
@@ -47,8 +49,7 @@ class DeckAddedState extends DeckState {
   List<Object?> get props => [deckEntry];
 }
 
-class DeckRemovedState extends DeckState{
-
+class DeckRemovedState extends DeckState {
   DeckRemovedState({required this.deckEntry});
   final DeckEntry deckEntry;
   @override
@@ -62,4 +63,3 @@ class DeckErrorState extends DeckState {
   @override
   List<Object?> get props => [err];
 }
-

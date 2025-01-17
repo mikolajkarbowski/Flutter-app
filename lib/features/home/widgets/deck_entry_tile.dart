@@ -38,43 +38,43 @@ class DeckEntryTile extends StatelessWidget {
   Widget _deckMenu(BuildContext context) {
     return PopupMenuButton<String>(
       onSelected: (value) async {
-        switch(value)
-        {
-          case 'add_card': context.pushNamed('AddFlashcardPage', extra: deck.deckId);
-          case 'remove_deck': {
-            final cubit = context.read<DeckManagementCubit>();
-            cubit.removeDeck(deck);
-          }
+        switch (value) {
+          case 'add_card':
+            context.pushNamed('AddFlashcardPage', extra: deck.deckId);
+          case 'remove_deck':
+            {
+              final cubit = context.read<DeckManagementCubit>();
+              cubit.removeDeck(deck);
+            }
         }
       },
       itemBuilder: (context) => [
         const PopupMenuItem(
-            value: 'add_card',
-            child: Row(
-              children: [
-                Icon(Icons.add),
-                SizedBox(
-                  width: 8,
-                ),
-                Text('Add Card'),
-              ],
-            ),
+          value: 'add_card',
+          child: Row(
+            children: [
+              Icon(Icons.add),
+              SizedBox(
+                width: 8,
+              ),
+              Text('Add Card'),
+            ],
+          ),
         ),
         const PopupMenuItem(
-            value: 'remove_deck',
-            child: Row(
-              children: [
-                Icon(Icons.delete),
-                SizedBox(
-                  width: 8,
-                ),
-                Text('Remove Deck'),
-              ],
-            ),
+          value: 'remove_deck',
+          child: Row(
+            children: [
+              Icon(Icons.delete),
+              SizedBox(
+                width: 8,
+              ),
+              Text('Remove Deck'),
+            ],
+          ),
         ),
       ],
       icon: const Icon(Icons.more_vert),
     );
   }
-
 }

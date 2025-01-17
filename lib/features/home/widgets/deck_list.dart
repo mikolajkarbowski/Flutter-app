@@ -14,8 +14,10 @@ class DeckList extends StatelessWidget {
       return EmptyDecksList();
     }
     return ListView.separated(
-      itemBuilder: (context, index) =>
-          DeckEntryTile(deck: decks.elementAt(index)),
+      padding: EdgeInsets.only(top: 5, bottom: 80),
+      itemBuilder: (context, index) {
+        return DeckEntryTile(deck: decks.elementAt(index));
+      },
       separatorBuilder: (context, index) => const SizedBox(
         height: 5,
       ),

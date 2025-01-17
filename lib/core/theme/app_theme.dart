@@ -23,6 +23,10 @@ class AppTheme {
   static final cardColor = Colors.white; // Kolor kart
   static final cardShadowColor = Colors.black45; // Cień kart
 
+  // Kolory kart fiszek
+  static final flashcardFrontColor = const Color(0xFFBBDEFB); // Jasny niebieski
+  static final flashcardBackColor = const Color(0xFFC8E6C9); // Jasny zielony
+
   // Kolory do statusów
   static final errorColor = const Color(0xFFD32F2F); // Kolor błędu
   static final warningColor = const Color(0xFFFFA000); // Kolor ostrzeżenia

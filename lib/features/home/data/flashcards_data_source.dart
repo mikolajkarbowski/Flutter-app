@@ -39,14 +39,31 @@ class FlashcardsDataSource {
     }
   }
 
-  Future<List<Flashcard>> getFlashCards(String deckId) async {
-    try {
-      QuerySnapshot<Map<String, dynamic>> res =
-          await _flashcards.where('deckId', isEqualTo: deckId).get();
-      return res.docs.map((doc) => Flashcard.fromJson(doc.data())).toList();
-    } catch (e) {
-      throw Exception('Failed to load flashcards: $e');
+  Future<List<Flashcard>> _getFlashcardsWhere(Filter filter) async {
+    {
+      try {
+        QuerySnapshot<Map<String, dynamic>> res =
+            await _flashcards.where(filter).get();
+        return res.docs.map((doc) => Flashcard.fromJson(doc.data())).toList();
+      } catch (e) {
+        throw Exception('Failed to load flashcards: $e');
+      }
     }
+  }
+
+  Future<List<Flashcard>> getFlashcards(String deckId) async {
+    final filter = Filter('deckId', isEqualTo: deckId);
+    return _getFlashcardsWhere(filter);
+  }
+
+  Future<List<Flashcard>> getFlashcardsForStudy(String deckId) async {
+    final now = DateTime.now();
+    final nextMidnight = DateTime(now.year, now.month, now.day + 1);
+    final filter = Filter.and(
+        Filter('deckId', isEqualTo: deckId),
+        Filter.or(Filter('nextReviewDate', isNull: true),
+            Filter('nextReviewDate', isLessThanOrEqualTo: nextMidnight)));
+    return _getFlashcardsWhere(filter);
   }
 
   Future<void> addNewFlashcard(Flashcard flashcard) async {
@@ -59,18 +76,20 @@ class FlashcardsDataSource {
 
   Future<void> removeFlashcards(String deckId) async {
     try {
-      QuerySnapshot querySnapshot = await _flashcards.where('deckId', isEqualTo: deckId).get();
-      List<Future> deleteOperations = querySnapshot.docs.map((doc) => doc.reference.delete()).toList();
+      QuerySnapshot querySnapshot =
+          await _flashcards.where('deckId', isEqualTo: deckId).get();
+      List<Future> deleteOperations =
+          querySnapshot.docs.map((doc) => doc.reference.delete()).toList();
       await Future.wait(deleteOperations);
     } catch (e) {
       throw Exception('Failed to remove flashcards: $e');
     }
   }
 
-  Future<void> removeDeckEntry(String deckId) async{
-    try{
+  Future<void> removeDeckEntry(String deckId) async {
+    try {
       await _decks.doc(deckId).delete();
-    } catch(e){
+    } catch (e) {
       throw Exception('Failed to remove deck entry: $e');
     }
   }

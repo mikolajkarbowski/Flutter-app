@@ -1,9 +1,12 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:memo_deck/shared/models/flashcard.dart';
+
+import '../../../core/theme/app_theme.dart';
 
 class AnimatedFlipCard extends StatefulWidget {
-  const AnimatedFlipCard({super.key});
-
+  const AnimatedFlipCard({super.key, required this.flashcard});
+  final Flashcard flashcard;
   @override
   State<StatefulWidget> createState() => _AnimatedFlipCardState();
 }
@@ -12,6 +15,7 @@ class _AnimatedFlipCardState extends State<AnimatedFlipCard>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
+  late Flashcard flashcard;
   bool isFront = true;
 
   @override
@@ -23,6 +27,19 @@ class _AnimatedFlipCardState extends State<AnimatedFlipCard>
       begin: 0.0,
       end: 1.0,
     ).animate(_controller);
+    flashcard = widget.flashcard;
+  }
+
+  @override
+  void didUpdateWidget(covariant AnimatedFlipCard oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.flashcard != widget.flashcard) {
+      setState(() {
+        flashcard = widget.flashcard;
+        isFront = true;
+        _controller.reset();
+      });
+    }
   }
 
   @override
@@ -33,7 +50,8 @@ class _AnimatedFlipCardState extends State<AnimatedFlipCard>
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return AspectRatio(
+      aspectRatio: 57 / 89,
       child: GestureDetector(
         onTap: _flipCard,
         child: AnimatedBuilder(
@@ -45,13 +63,13 @@ class _AnimatedFlipCardState extends State<AnimatedFlipCard>
                 transform: Matrix4.rotationY(angle),
                 alignment: Alignment.center,
                 child: isFrontVisible
-                    ? _buildCard('question', Colors.red)
+                    ? _buildCard(flashcard.question, AppTheme.flashcardFrontColor)
                     : Transform(
                         transform: Matrix4.rotationY(pi),
                         alignment: Alignment.center,
                         child: _buildCard(
-                          'answer',
-                          Colors.blue,
+                          flashcard.answer,
+                          AppTheme.flashcardBackColor,
                         ),
                       ),
               );
