@@ -63,7 +63,8 @@ class _AnimatedFlipCardState extends State<AnimatedFlipCard>
                 transform: Matrix4.rotationY(angle),
                 alignment: Alignment.center,
                 child: isFrontVisible
-                    ? _buildCard(flashcard.question, AppTheme.flashcardFrontColor)
+                    ? _buildCard(
+                        flashcard.question, AppTheme.flashcardFrontColor)
                     : Transform(
                         transform: Matrix4.rotationY(pi),
                         alignment: Alignment.center,
@@ -94,6 +95,8 @@ class _AnimatedFlipCardState extends State<AnimatedFlipCard>
       child: Center(
         child: Text(
           text,
+          style: AppTheme.bodyLarge,
+          textAlign: TextAlign.center,
         ),
       ),
     );

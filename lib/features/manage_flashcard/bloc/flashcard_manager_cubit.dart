@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:memo_deck/features/home/data/flashcards_data_source.dart';
 import 'package:memo_deck/shared/models/flashcard.dart';
 
-class AddFlashcardCubit extends Cubit<FlashcardState> {
-  AddFlashcardCubit({required this.dataSource})
+class FlashcardManagerCubit extends Cubit<FlashcardState> {
+  FlashcardManagerCubit({required this.dataSource})
       : super(FlashcardState.initial());
 
   final FlashcardsDataSource dataSource;
@@ -17,6 +17,17 @@ class AddFlashcardCubit extends Cubit<FlashcardState> {
       emit(FlashcardState.err(err: e));
     }
   }
+
+  Future<void> updateFlashcard(
+      Flashcard oldFlashcard, Flashcard newFlashcard) async {
+    try {
+      await dataSource.updateFlashcard(newFlashcard);
+      emit(FlashcardState.updated(
+          oldFlashcard: oldFlashcard, newFlashcard: newFlashcard));
+    } catch (e) {
+      emit(FlashcardState.err(err: e));
+    }
+  }
 }
 
 sealed class FlashcardState with EquatableMixin {
@@ -25,6 +36,9 @@ sealed class FlashcardState with EquatableMixin {
   factory FlashcardState.err({dynamic err}) = FlashcardErrorState;
   factory FlashcardState.added({required Flashcard flashcard}) =
       FlashcardAddedState;
+  factory FlashcardState.updated(
+      {required Flashcard oldFlashcard,
+      required Flashcard newFlashcard}) = FlashcardUpdatedState;
 }
 
 class FlashcardInitialState extends FlashcardState {
@@ -44,4 +58,14 @@ class FlashcardAddedState extends FlashcardState {
   final Flashcard flashcard;
   @override
   List<Object?> get props => [flashcard];
+}
+
+class FlashcardUpdatedState extends FlashcardState {
+  FlashcardUpdatedState(
+      {required this.oldFlashcard, required this.newFlashcard});
+  final Flashcard oldFlashcard;
+  final Flashcard newFlashcard;
+
+  @override
+  List<Object?> get props => [oldFlashcard, newFlashcard];
 }

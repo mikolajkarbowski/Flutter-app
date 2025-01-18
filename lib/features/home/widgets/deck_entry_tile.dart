@@ -37,10 +37,12 @@ class DeckEntryTile extends StatelessWidget {
 
   Widget _deckMenu(BuildContext context) {
     return PopupMenuButton<String>(
+      icon: const Icon(Icons.more_vert),
       onSelected: (value) async {
         switch (value) {
           case 'add_card':
-            context.pushNamed('AddFlashcardPage', extra: deck.deckId);
+            context.pushNamed('ManageFlashcardPage',
+                pathParameters: {'deckId': deck.deckId});
           case 'remove_deck':
             {
               final cubit = context.read<DeckManagementCubit>();
@@ -65,7 +67,10 @@ class DeckEntryTile extends StatelessWidget {
           value: 'remove_deck',
           child: Row(
             children: [
-              Icon(Icons.delete),
+              Icon(
+                Icons.delete,
+                color: Colors.red,
+              ),
               SizedBox(
                 width: 8,
               ),
@@ -74,7 +79,6 @@ class DeckEntryTile extends StatelessWidget {
           ),
         ),
       ],
-      icon: const Icon(Icons.more_vert),
     );
   }
 }

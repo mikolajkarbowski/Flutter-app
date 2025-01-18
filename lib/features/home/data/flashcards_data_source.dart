@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:memo_deck/shared/models/deck_entry.dart';
 import 'package:memo_deck/shared/models/flashcard.dart';
 
@@ -22,6 +23,14 @@ class FlashcardsDataSource {
       _decks.snapshots().map((snapshot) =>
           snapshot.docs.map((doc) => DeckEntry.fromJson(doc.data())).toList());
 
+  List<Flashcard> _parseFlashcards(List<Map<String, dynamic>> rawData) {
+    return rawData.map((data) => Flashcard.fromJson(data)).toList();
+  }
+
+  List<DeckEntry> _parseDeckEntries(List<Map<String, dynamic>> rawData) {
+    return rawData.map((data) => DeckEntry.fromJson(data)).toList();
+  }
+
   Future<void> addNewDeckEntry(DeckEntry deck) async {
     try {
       await _decks.doc(deck.deckId).set(deck.toJson());
@@ -33,7 +42,9 @@ class FlashcardsDataSource {
   Future<List<DeckEntry>> getAllDeckEntries() async {
     try {
       QuerySnapshot<Map<String, dynamic>> res = await _decks.get();
-      return res.docs.map((doc) => DeckEntry.fromJson(doc.data())).toList();
+      List<Map<String, dynamic>> rawData =
+          res.docs.map((doc) => doc.data()).toList();
+      return await compute(_parseDeckEntries, rawData);
     } catch (e) {
       throw Exception('Failed to load deck entries: $e');
     }
@@ -44,7 +55,9 @@ class FlashcardsDataSource {
       try {
         QuerySnapshot<Map<String, dynamic>> res =
             await _flashcards.where(filter).get();
-        return res.docs.map((doc) => Flashcard.fromJson(doc.data())).toList();
+        List<Map<String, dynamic>> rawData =
+            res.docs.map((doc) => doc.data()).toList();
+        return await compute(_parseFlashcards, rawData);
       } catch (e) {
         throw Exception('Failed to load flashcards: $e');
       }
@@ -58,7 +71,8 @@ class FlashcardsDataSource {
 
   Future<List<Flashcard>> getFlashcardsForStudy(String deckId) async {
     final now = DateTime.now();
-    final nextMidnight = DateTime(now.year, now.month, now.day + 1);
+    final nextMidnight =
+        DateTime(now.year, now.month, now.day + 1).toIso8601String();
     final filter = Filter.and(
         Filter('deckId', isEqualTo: deckId),
         Filter.or(Filter('nextReviewDate', isNull: true),
@@ -71,6 +85,14 @@ class FlashcardsDataSource {
       await _flashcards.doc(flashcard.cardId).set(flashcard.toJson());
     } catch (e) {
       throw Exception('Failed to add flashcard: $e');
+    }
+  }
+
+  Future<void> updateFlashcard(Flashcard flashcard) async {
+    try {
+      await _flashcards.doc(flashcard.cardId).update(flashcard.toJson());
+    } catch (e) {
+      throw Exception('Failed to update flashcard: $e');
     }
   }
 

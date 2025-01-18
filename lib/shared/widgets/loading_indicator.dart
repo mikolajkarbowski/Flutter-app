@@ -8,9 +8,14 @@ class LoadingIndicator extends StatelessWidget {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(4.0),
-        child: AspectRatio(
-          aspectRatio: 1 / 1,
-          child: CircularProgressIndicator(),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            maxWidth: 60,
+          ),
+          child: AspectRatio(
+            aspectRatio: 1 / 1,
+            child: CircularProgressIndicator(),
+          ),
         ),
       ),
     );

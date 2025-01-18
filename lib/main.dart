@@ -2,11 +2,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:memo_deck/core/theme/app_theme.dart';
-import 'package:memo_deck/features/add_flashcard/pages/add_flashcard_page.dart';
+import 'package:memo_deck/features/manage_flashcard/pages/manage_flashcard_page.dart';
 import 'package:memo_deck/features/authentication/pages/splash_page.dart';
 import 'package:memo_deck/features/authentication/firebase/firebase_options.dart';
 import 'package:memo_deck/core/service_locator.dart';
 import 'package:memo_deck/features/quiz/pages/quiz_page.dart';
+import 'package:memo_deck/shared/models/flashcard.dart';
 import 'features/authentication/pages/sign_in_page.dart';
 import 'features/authentication/pages/sign_up_page.dart';
 import 'features/home/pages/home_page.dart';
@@ -67,12 +68,14 @@ final GoRouter _router = GoRouter(
           );
         }),
     GoRoute(
-        path: '/add_flashcard',
-        name: 'AddFlashcardPage',
+        path: '/manage_flashcard/:deckId',
+        name: 'ManageFlashcardPage',
         builder: (context, state) {
-          final deckEntryId = state.extra as String;
-          return AddFlashCardPage(
+          final deckEntryId = state.pathParameters['deckId'] as String;
+          final flashcard = state.extra as Flashcard?;
+          return ManageFlashcardPage(
             selectedDeckId: deckEntryId,
+            selectedFlashcard: flashcard,
           );
         })
   ],

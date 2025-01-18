@@ -4,13 +4,14 @@ import 'package:json_annotation/json_annotation.dart';
 part 'flashcard.g.dart';
 
 @JsonSerializable()
-class Flashcard{
+class Flashcard {
   Flashcard(
       {required this.cardId,
       required this.deckId,
       required this.question,
       required this.answer,
       required this.nextReviewDate,
+      required this.interval,
       required this.repetitions,
       required this.easeFactor});
 
@@ -24,6 +25,7 @@ class Flashcard{
             question: question,
             answer: answer,
             nextReviewDate: null,
+            interval: 0,
             repetitions: 0,
             easeFactor: 2.5);
 
@@ -35,6 +37,7 @@ class Flashcard{
   final String question;
   final String answer;
   final DateTime? nextReviewDate;
+  final int interval;
   final int repetitions;
   final double easeFactor;
 
@@ -44,6 +47,7 @@ class Flashcard{
     String? question,
     String? answer,
     DateTime? nextReviewDate,
+    int? interval,
     int? repetitions,
     double? easeFactor,
   }) {
@@ -53,6 +57,7 @@ class Flashcard{
         question: question ?? this.question,
         answer: answer ?? this.answer,
         nextReviewDate: nextReviewDate,
+        interval: interval ?? this.interval,
         repetitions: repetitions ?? this.repetitions,
         easeFactor: easeFactor ?? this.easeFactor);
   }

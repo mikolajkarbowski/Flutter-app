@@ -7,8 +7,8 @@ import 'package:memo_deck/features/authentication/data/auth_service.dart';
 import 'package:memo_deck/features/home/bloc/deck_management_cubit.dart';
 import 'package:memo_deck/features/home/data/flashcards_data_source.dart';
 import 'package:memo_deck/shared/models/deck_entry.dart';
-import 'package:memo_deck/shared/utilities/snackbar_utils.dart';
-import 'package:memo_deck/shared/widgets/loading_indicator.dart';
+import 'package:memo_deck/shared/utilities/snack_bar_utils.dart';
+import 'package:memo_deck/shared/widgets/loading_screen.dart';
 
 import '../widgets/deck_list.dart';
 
@@ -64,7 +64,9 @@ class HomePage extends StatelessWidget {
                       decks: snapshot.data!,
                     );
                   }
-                  return LoadingIndicator();
+                  return LoadingScreen(
+                    message: "Loading Decks...",
+                  );
                 }),
             drawer: Drawer(
                 child: ListView(

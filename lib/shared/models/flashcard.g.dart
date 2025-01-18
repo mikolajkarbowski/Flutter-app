@@ -14,6 +14,7 @@ Flashcard _$FlashcardFromJson(Map<String, dynamic> json) => Flashcard(
       nextReviewDate: json['nextReviewDate'] == null
           ? null
           : DateTime.parse(json['nextReviewDate'] as String),
+      interval: (json['interval'] as num).toInt(),
       repetitions: (json['repetitions'] as num).toInt(),
       easeFactor: (json['easeFactor'] as num).toDouble(),
     );
@@ -24,6 +25,7 @@ Map<String, dynamic> _$FlashcardToJson(Flashcard instance) => <String, dynamic>{
       'question': instance.question,
       'answer': instance.answer,
       'nextReviewDate': instance.nextReviewDate?.toIso8601String(),
+      'interval': instance.interval,
       'repetitions': instance.repetitions,
       'easeFactor': instance.easeFactor,
     };

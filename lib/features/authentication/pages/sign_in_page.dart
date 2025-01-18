@@ -7,7 +7,7 @@ import 'package:memo_deck/features/authentication/widgets/auth_action_button.dar
 import 'package:memo_deck/features/authentication/bloc/auth_cubit.dart';
 import 'package:memo_deck/core/service_locator.dart';
 import 'package:memo_deck/features/authentication/widgets/password_field.dart';
-import 'package:memo_deck/shared/utilities/snackbar_utils.dart';
+import 'package:memo_deck/shared/utilities/snack_bar_utils.dart';
 
 import '../data/auth_service.dart';
 import '../widgets/email_field.dart';
