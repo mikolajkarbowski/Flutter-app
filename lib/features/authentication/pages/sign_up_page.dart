@@ -71,9 +71,15 @@ class _SignUpPageState extends State<SignUpPage> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           EmailField(controller: _emailController),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           PasswordField(
                             controller: _passwordController,
                             validator: _passwordValidator,
+                          ),
+                          const SizedBox(
+                            height: 10,
                           ),
                           AuthActionButton(
                             onPressed: () async {
@@ -84,6 +90,9 @@ class _SignUpPageState extends State<SignUpPage> {
                               }
                             },
                             text: 'Create account',
+                          ),
+                          const SizedBox(
+                            height: 5,
                           ),
                           ActionLinkFooter(
                             promptText: "Already have an account? ",

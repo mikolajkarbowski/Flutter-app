@@ -73,9 +73,15 @@ class _SignInPageState extends State<SignInPage> {
                           EmailField(
                             controller: _emailController,
                           ),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           PasswordField(
                               controller: _passwordController,
                               validator: _passwordValidator),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           AuthActionButton(
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
@@ -86,6 +92,9 @@ class _SignInPageState extends State<SignInPage> {
                               }
                             },
                             text: 'Log in',
+                          ),
+                          const SizedBox(
+                            height: 5,
                           ),
                           ActionLinkFooter(
                             promptText: "Don't have an account? ",

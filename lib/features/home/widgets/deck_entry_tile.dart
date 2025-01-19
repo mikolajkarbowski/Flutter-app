@@ -37,7 +37,9 @@ class DeckEntryTile extends StatelessWidget {
 
   Widget _deckMenu(BuildContext context) {
     return PopupMenuButton<String>(
-      icon: const Icon(Icons.more_vert),
+      icon: const Icon(
+        Icons.more_vert,
+      ),
       onSelected: (value) async {
         switch (value) {
           case 'add_card':

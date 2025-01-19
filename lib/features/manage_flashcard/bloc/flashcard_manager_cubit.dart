@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:memo_deck/features/home/data/flashcards_data_source.dart';
 import 'package:memo_deck/shared/models/flashcard.dart';
+import 'package:memo_deck/shared/utilities/delay_action.dart';
 
 class FlashcardManagerCubit extends Cubit<FlashcardState> {
   FlashcardManagerCubit({required this.dataSource})
@@ -10,30 +11,26 @@ class FlashcardManagerCubit extends Cubit<FlashcardState> {
   final FlashcardsDataSource dataSource;
 
   Future<void> addNewFlashcard(Flashcard flashcard) async {
-    try {
-      await dataSource.addNewFlashcard(flashcard);
-      emit(FlashcardState.added(flashcard: flashcard));
-    } catch (e) {
-      emit(FlashcardState.err(err: e));
-    }
+    emit(FlashcardState.processing());
+    dataSource.addNewFlashcard(flashcard);
+    await delayAction(
+        action: () => emit(FlashcardState.added(flashcard: flashcard)));
   }
 
   Future<void> updateFlashcard(
       Flashcard oldFlashcard, Flashcard newFlashcard) async {
-    try {
-      await dataSource.updateFlashcard(newFlashcard);
-      emit(FlashcardState.updated(
-          oldFlashcard: oldFlashcard, newFlashcard: newFlashcard));
-    } catch (e) {
-      emit(FlashcardState.err(err: e));
-    }
+    emit(FlashcardState.processing());
+    dataSource.updateFlashcard(newFlashcard);
+    await delayAction(
+        action: () => emit(FlashcardState.updated(
+            oldFlashcard: oldFlashcard, newFlashcard: newFlashcard)));
   }
 }
 
 sealed class FlashcardState with EquatableMixin {
   FlashcardState();
   factory FlashcardState.initial() = FlashcardInitialState;
-  factory FlashcardState.err({dynamic err}) = FlashcardErrorState;
+  factory FlashcardState.processing() = FlashcardProcessingState;
   factory FlashcardState.added({required Flashcard flashcard}) =
       FlashcardAddedState;
   factory FlashcardState.updated(
@@ -46,11 +43,10 @@ class FlashcardInitialState extends FlashcardState {
   List<Object?> get props => [];
 }
 
-class FlashcardErrorState extends FlashcardState {
-  FlashcardErrorState({this.err});
-  final dynamic err;
+class FlashcardProcessingState extends FlashcardState {
+  FlashcardProcessingState();
   @override
-  List<Object?> get props => [err];
+  List<Object?> get props => [];
 }
 
 class FlashcardAddedState extends FlashcardState {

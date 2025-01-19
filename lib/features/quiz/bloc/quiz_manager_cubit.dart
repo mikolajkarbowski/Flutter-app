@@ -16,17 +16,17 @@ class QuizManagerCubit extends Cubit<QuizState> {
     }
   }
 
-  Future<void> submitResponse(Flashcard flashcard, double grade) async {
-    try {
-      await quizManager.submitResponse(flashcard, grade);
-    } catch (err) {
-      emit(QuizState.err(err: err));
-    }
+  void submitResponse(Flashcard flashcard, double grade) {
+    quizManager.submitResponse(flashcard, grade);
   }
 
   void flashcardUpdated(Flashcard oldFlashcard, Flashcard newFlashcard) {
     quizManager.flashcardChanged(oldFlashcard, newFlashcard);
-    emit(QuizState.nextCard(flashcard: newFlashcard));
+    if (newFlashcard.deckId == quizManager.deckId) {
+      emit(QuizState.nextCard(flashcard: newFlashcard));
+    } else {
+      getNextCard();
+    }
   }
 
   void getNextCard() {

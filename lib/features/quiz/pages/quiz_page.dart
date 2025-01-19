@@ -30,6 +30,7 @@ class QuizPage extends StatelessWidget {
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: AppBar(
+            title: Text('Quiz'),
             actions: [
               _popupMenu(context),
               SizedBox(
@@ -70,30 +71,29 @@ class QuizPage extends StatelessWidget {
                           ),
                           child: Row(
                             children: [
-                              _quizButton(context, 'Wrong', Colors.red,
-                                  () async {
-                                await cubit.submitResponse(state.flashcard, 0);
-                                cubit.getNextCard();
-                              }),
-                              _quizButton(context, 'Hard', Colors.yellow,
-                                  () async {
-                                await cubit.submitResponse(state.flashcard, 2);
+                              _quizButton(context, 'Wrong', Colors.red, () {
+                                cubit.submitResponse(state.flashcard, 0);
                                 cubit.getNextCard();
                               }),
                               const SizedBox(
                                 width: 4,
                               ),
-                              _quizButton(context, 'Good', Colors.green,
-                                  () async {
-                                await cubit.submitResponse(state.flashcard, 3);
+                              _quizButton(context, 'Hard', Colors.yellow, () {
+                                cubit.submitResponse(state.flashcard, 2);
                                 cubit.getNextCard();
                               }),
                               const SizedBox(
                                 width: 4,
                               ),
-                              _quizButton(context, 'Easy', Colors.blue,
-                                  () async {
-                                await cubit.submitResponse(state.flashcard, 5);
+                              _quizButton(context, 'Good', Colors.green, () {
+                                cubit.submitResponse(state.flashcard, 3);
+                                cubit.getNextCard();
+                              }),
+                              const SizedBox(
+                                width: 4,
+                              ),
+                              _quizButton(context, 'Easy', Colors.blue, () {
+                                cubit.submitResponse(state.flashcard, 5);
                                 cubit.getNextCard();
                               })
                             ],

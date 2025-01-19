@@ -15,9 +15,9 @@ class QuizManager {
     return flashcards.isEmpty;
   }
 
-  Future<void> submitResponse(Flashcard flashcard, double grade) async {
+  void submitResponse(Flashcard flashcard, double grade) {
     final updatedFlashcard = SuperMemo.sm2Algorithm(flashcard, grade);
-    await dataSource.updateFlashcard(updatedFlashcard);
+    dataSource.updateFlashcard(updatedFlashcard);
     if (updatedFlashcard.interval != 0) {
       flashcards.remove(flashcard);
     }

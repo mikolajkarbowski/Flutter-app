@@ -7,6 +7,7 @@ import 'package:memo_deck/features/manage_flashcard/bloc/flashcard_manager_cubit
 import 'package:memo_deck/features/home/data/flashcards_data_source.dart';
 import 'package:memo_deck/shared/models/deck_entry.dart';
 import 'package:memo_deck/shared/utilities/snack_bar_utils.dart';
+import 'package:memo_deck/shared/widgets/loading_indicator.dart';
 import 'package:memo_deck/shared/widgets/loading_screen.dart';
 
 import '../../../shared/models/flashcard.dart';
@@ -71,10 +72,7 @@ class _ManageFlashcardPageState extends State<ManageFlashcardPage> {
         return BlocListener<FlashcardManagerCubit, FlashcardState>(
           bloc: context.read<FlashcardManagerCubit>(),
           listener: (context, state) {
-            if (state is FlashcardErrorState) {
-              SnackBarUtils.showErrorSnackBar(
-                  context, 'Failed to add flashcard: ${state.err}');
-            } else if (state is FlashcardAddedState) {
+            if (state is FlashcardAddedState) {
               clearFields();
               SnackBarUtils.showSuccessSnackBar(context, 'New flashcard added');
             } else if (state is FlashcardUpdatedState) {
@@ -151,7 +149,6 @@ class _ManageFlashcardPageState extends State<ManageFlashcardPage> {
           if (value != null) {
             setState(
               () {
-                clearFields();
                 selectedDeckId = value;
               },
             );
@@ -187,35 +184,49 @@ class _ManageFlashcardPageState extends State<ManageFlashcardPage> {
     return Row(
       children: [
         Expanded(
-          child: ElevatedButton(
-              onPressed: () {
-                if (!_formKey.currentState!.validate()) {
-                  return;
-                }
-                switch (mode) {
-                  case FlashcardAction.create:
-                    {
-                      Flashcard flashcard = Flashcard.create(
-                          deckId: selectedDeckId,
-                          question: frontController.text,
-                          answer: backController.text);
-                      managerCubit.addNewFlashcard(flashcard);
-                    }
-                  case FlashcardAction.edit:
-                    {
-                      Flashcard newFlashcard = selectedFlashcard!.copyWith(
-                          deckId: selectedDeckId,
-                          question: frontController.text,
-                          answer: backController.text);
-                      managerCubit.updateFlashcard(
-                          selectedFlashcard!, newFlashcard);
-                    }
-                }
-              },
-              child: switch (mode) {
-                FlashcardAction.edit => Text('Edit Flashcard'),
-                FlashcardAction.create => Text('Add Another Card'),
-              }),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: 40,
+            child: ElevatedButton(onPressed: () async {
+              if (!_formKey.currentState!.validate()) {
+                return;
+              }
+              switch (mode) {
+                case FlashcardAction.create:
+                  {
+                    Flashcard flashcard = Flashcard.create(
+                        deckId: selectedDeckId,
+                        question: frontController.text,
+                        answer: backController.text);
+                    await managerCubit.addNewFlashcard(flashcard);
+                  }
+                case FlashcardAction.edit:
+                  {
+                    Flashcard newFlashcard = selectedFlashcard!.copyWith(
+                        deckId: selectedDeckId,
+                        question: frontController.text,
+                        answer: backController.text);
+                    await managerCubit.updateFlashcard(
+                        selectedFlashcard!, newFlashcard);
+                  }
+              }
+            }, child: BlocBuilder<FlashcardManagerCubit, FlashcardState>(
+                builder: (context, state) {
+              if (state is FlashcardProcessingState) {
+                return LoadingIndicator();
+              }
+              switch (mode) {
+                case FlashcardAction.edit:
+                  {
+                    return Text('Edit Flashcard');
+                  }
+                case FlashcardAction.create:
+                  {
+                    return Text('Add Another Card');
+                  }
+              }
+            })),
+          ),
         ),
       ],
     );

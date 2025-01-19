@@ -33,9 +33,14 @@ class FlashcardsDataSource {
 
   Future<void> addNewDeckEntry(DeckEntry deck) async {
     try {
-      await _decks.doc(deck.deckId).set(deck.toJson());
+      final res =
+          await _decks.where('name', isEqualTo: deck.name).limit(1).get();
+      if (res.docs.isNotEmpty) {
+        throw 'Deck "${deck.name}" already exists!';
+      }
+      _decks.doc(deck.deckId).set(deck.toJson());
     } catch (e) {
-      throw Exception('Failed to add deck entry: $e');
+      throw 'Failed to add new deck entry: $e';
     }
   }
 
@@ -46,7 +51,7 @@ class FlashcardsDataSource {
           res.docs.map((doc) => doc.data()).toList();
       return await compute(_parseDeckEntries, rawData);
     } catch (e) {
-      throw Exception('Failed to load deck entries: $e');
+      throw 'Failed to load deck entries: $e';
     }
   }
 
@@ -80,39 +85,23 @@ class FlashcardsDataSource {
     return _getFlashcardsWhere(filter);
   }
 
-  Future<void> addNewFlashcard(Flashcard flashcard) async {
-    try {
-      await _flashcards.doc(flashcard.cardId).set(flashcard.toJson());
-    } catch (e) {
-      throw Exception('Failed to add flashcard: $e');
-    }
+  void addNewFlashcard(Flashcard flashcard) {
+    _flashcards.doc(flashcard.cardId).set(flashcard.toJson());
   }
 
-  Future<void> updateFlashcard(Flashcard flashcard) async {
-    try {
-      await _flashcards.doc(flashcard.cardId).update(flashcard.toJson());
-    } catch (e) {
-      throw Exception('Failed to update flashcard: $e');
-    }
+  void updateFlashcard(Flashcard flashcard) {
+    _flashcards.doc(flashcard.cardId).update(flashcard.toJson());
   }
 
   Future<void> removeFlashcards(String deckId) async {
-    try {
-      QuerySnapshot querySnapshot =
-          await _flashcards.where('deckId', isEqualTo: deckId).get();
-      List<Future> deleteOperations =
-          querySnapshot.docs.map((doc) => doc.reference.delete()).toList();
-      await Future.wait(deleteOperations);
-    } catch (e) {
-      throw Exception('Failed to remove flashcards: $e');
+    QuerySnapshot querySnapshot =
+        await _flashcards.where('deckId', isEqualTo: deckId).get();
+    for (var doc in querySnapshot.docs) {
+      doc.reference.delete();
     }
   }
 
-  Future<void> removeDeckEntry(String deckId) async {
-    try {
-      await _decks.doc(deckId).delete();
-    } catch (e) {
-      throw Exception('Failed to remove deck entry: $e');
-    }
+  void removeDeckEntry(String deckId) {
+    _decks.doc(deckId).delete();
   }
 }
