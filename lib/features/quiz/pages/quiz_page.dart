@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:memo_deck/core/service_locator.dart';
 import 'package:memo_deck/core/theme/app_theme.dart';
+import 'package:memo_deck/features/activity_tracker/logic/study_session_manager.dart';
 import 'package:memo_deck/features/home/data/flashcards_data_source.dart';
 import 'package:memo_deck/features/quiz/bloc/quiz_manager_cubit.dart';
 import 'package:memo_deck/features/quiz/logic/quiz_manager.dart';
@@ -12,8 +13,6 @@ import 'package:memo_deck/shared/models/flashcard.dart';
 import 'package:memo_deck/shared/widgets/loading_screen.dart';
 
 import '../widgets/quiz_error_screen.dart';
-
-// TODO: dodac obsluge edycji karty
 
 class QuizPage extends StatelessWidget {
   const QuizPage({super.key, required this.deckId});
@@ -43,6 +42,9 @@ class QuizPage extends StatelessWidget {
             child: BlocBuilder<QuizManagerCubit, QuizState>(
               builder: (context, state) {
                 final cubit = context.read<QuizManagerCubit>();
+                if (state is QuizEndState) {
+                  serviceLocator<StudySessionManager>().endSession();
+                }
                 return switch (state) {
                   QuizInitialState() => LoadingScreen(),
                   QuizLoadingState() => LoadingScreen(),
@@ -137,6 +139,7 @@ class QuizPage extends StatelessWidget {
               {
                 final state = cubit.state;
                 if (state is QuizNextCardState) {
+                  serviceLocator<StudySessionManager>().suspendSession();
                   final res = await context.pushNamed('ManageFlashcardPage',
                       pathParameters: {'deckId': state.flashcard.deckId},
                       extra: state.flashcard);
@@ -144,6 +147,7 @@ class QuizPage extends StatelessWidget {
                     final resCasted = res as List<Flashcard>;
                     cubit.flashcardUpdated(resCasted.first, resCasted.last);
                   }
+                  serviceLocator<StudySessionManager>().continueSession();
                 }
               }
           }

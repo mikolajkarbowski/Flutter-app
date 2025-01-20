@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:memo_deck/core/service_locator.dart';
-import 'package:memo_deck/core/theme/app_theme.dart';
-import 'package:memo_deck/features/authentication/data/auth_service.dart';
 import 'package:memo_deck/features/home/bloc/deck_management_cubit.dart';
 import 'package:memo_deck/features/home/data/flashcards_data_source.dart';
 import 'package:memo_deck/shared/models/deck_entry.dart';
+import 'package:memo_deck/shared/utilities/app_drawer.dart';
 import 'package:memo_deck/shared/utilities/snack_bar_utils.dart';
 import 'package:memo_deck/shared/widgets/loading_screen.dart';
 
@@ -40,6 +39,7 @@ class HomePage extends StatelessWidget {
             appBar: AppBar(
               title: const Text('HomePage'),
             ),
+            drawer: AppDrawer(),
             floatingActionButton: FloatingActionButton(
               onPressed: () async {
                 final newDeckName = await showDialog<String>(
@@ -68,25 +68,6 @@ class HomePage extends StatelessWidget {
                     message: "Loading Decks...",
                   );
                 }),
-            drawer: Drawer(
-                child: ListView(
-              children: [
-                DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: AppTheme.accentColor,
-                  ),
-                  child: Text('Menu'),
-                ),
-                ListTile(
-                  leading: Icon(Icons.logout),
-                  title: Text('Logout'),
-                  onTap: () {
-                    serviceLocator<AuthService>().signOut();
-                    context.goNamed('SplashPage');
-                  },
-                )
-              ],
-            )),
           ),
         );
       }),

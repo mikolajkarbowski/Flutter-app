@@ -3,12 +3,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:memo_deck/core/theme/app_theme.dart';
+import 'package:memo_deck/features/activity_tracker/pages/statistics_page.dart';
 import 'package:memo_deck/features/manage_flashcard/pages/manage_flashcard_page.dart';
 import 'package:memo_deck/features/authentication/pages/splash_page.dart';
 import 'package:memo_deck/features/authentication/firebase/firebase_options.dart';
 import 'package:memo_deck/core/service_locator.dart';
 import 'package:memo_deck/features/quiz/pages/quiz_page.dart';
 import 'package:memo_deck/shared/models/flashcard.dart';
+import 'package:memo_deck/shared/utilities/app_drawer.dart';
+import 'package:provider/provider.dart';
 import 'features/authentication/pages/sign_in_page.dart';
 import 'features/authentication/pages/sign_up_page.dart';
 import 'features/home/pages/home_page.dart';
@@ -20,9 +23,8 @@ Future<void> main() async {
   );
   FirebaseFirestore.instance.settings = const Settings(
     persistenceEnabled: true,
-    cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
+    cacheSizeBytes: 20000000,
   );
-  await FirebaseFirestore.instance.enableNetwork();
   await initializeDependencies();
   runApp(MyApp());
 }
@@ -32,9 +34,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      theme: AppTheme.appTheme,
-      routerConfig: _router,
+    return ChangeNotifierProvider(
+      create: (context) => NavigationState(),
+      child: MaterialApp.router(
+        theme: AppTheme.appTheme,
+        routerConfig: _router,
+      ),
     );
   }
 }
@@ -83,6 +88,13 @@ final GoRouter _router = GoRouter(
             selectedDeckId: deckEntryId,
             selectedFlashcard: flashcard,
           );
-        })
+        }),
+    GoRoute(
+      path: '/statistic',
+      name: 'StatisticsPage',
+      builder: (context, state) {
+        return StatisticsPage();
+      },
+    )
   ],
 );

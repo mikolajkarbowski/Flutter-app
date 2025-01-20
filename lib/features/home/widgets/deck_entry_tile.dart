@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:memo_deck/core/service_locator.dart';
+import 'package:memo_deck/features/activity_tracker/logic/study_session_manager.dart';
 import 'package:memo_deck/features/home/bloc/deck_management_cubit.dart';
 import '../../../shared/models/deck_entry.dart';
 
@@ -29,8 +31,10 @@ class DeckEntryTile extends StatelessWidget {
 
   Widget _practiceButton(BuildContext context) {
     return FilledButton.tonal(
-        onPressed: () {
-          context.pushNamed('QuizPage', extra: deck.deckId);
+        onPressed: () async {
+          serviceLocator<StudySessionManager>().startNewSession(deck.deckId);
+          await context.pushNamed('QuizPage', extra: deck.deckId);
+          serviceLocator<StudySessionManager>().endSession();
         },
         child: Text('Practice'));
   }

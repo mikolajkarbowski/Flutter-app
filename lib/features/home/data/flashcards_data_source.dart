@@ -64,7 +64,7 @@ class FlashcardsDataSource {
             res.docs.map((doc) => doc.data()).toList();
         return await compute(_parseFlashcards, rawData);
       } catch (e) {
-        throw Exception('Failed to load flashcards: $e');
+        throw 'Failed to load flashcards: $e';
       }
     }
   }
