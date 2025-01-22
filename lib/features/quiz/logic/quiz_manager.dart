@@ -9,21 +9,34 @@ class QuizManager {
   final FlashcardsDataSource dataSource;
   final String deckId;
   final random = Random();
+  final List<Flashcard> answeredFlashcards = [];
   late List<Flashcard> flashcards;
+
+  int answerCount = 0;
+
+  double get quizProgress {
+    return answerCount / (answerCount + flashcards.length);
+  }
 
   bool get isQuizFinished {
     return flashcards.isEmpty;
   }
 
   void submitResponse(Flashcard flashcard, double grade) {
+    answerCount += 1;
+    answeredFlashcards.remove(flashcard);
+    answeredFlashcards.add(flashcard);
     final updatedFlashcard = SuperMemo.sm2Algorithm(flashcard, grade);
     dataSource.updateFlashcard(updatedFlashcard);
     if (updatedFlashcard.interval != 0) {
       flashcards.remove(flashcard);
+    } else if (!flashcards.contains(flashcard)) {
+      flashcards.add(flashcard);
     }
   }
 
   Future<void> prepareQuiz() async {
+    answerCount = 0;
     flashcards = await dataSource.getFlashcardsForStudy(deckId);
   }
 
@@ -32,6 +45,13 @@ class QuizManager {
       return null;
     }
     return flashcards[random.nextInt(flashcards.length)];
+  }
+
+  Flashcard? getPreviousFlashcard() {
+    if (answeredFlashcards.isNotEmpty) {
+      return answeredFlashcards.removeLast();
+    }
+    return null;
   }
 
   void flashcardChanged(Flashcard oldFlashcard, Flashcard newFlashcard) {

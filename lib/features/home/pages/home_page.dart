@@ -11,8 +11,6 @@ import 'package:memo_deck/shared/widgets/loading_screen.dart';
 
 import '../widgets/deck_list.dart';
 
-// TODO: dodaj sprawdzenie czy deck o tej nazwie już nie istnieje
-
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
   @override

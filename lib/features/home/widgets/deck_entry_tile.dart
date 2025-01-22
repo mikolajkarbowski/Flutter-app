@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:memo_deck/core/service_locator.dart';
 import 'package:memo_deck/features/activity_tracker/logic/study_session_manager.dart';
 import 'package:memo_deck/features/home/bloc/deck_management_cubit.dart';
+import 'package:memo_deck/features/home/widgets/delete_deck_confirmation_dialog.dart';
 import '../../../shared/models/deck_entry.dart';
 
 class DeckEntryTile extends StatelessWidget {
@@ -51,8 +52,11 @@ class DeckEntryTile extends StatelessWidget {
                 pathParameters: {'deckId': deck.deckId});
           case 'remove_deck':
             {
-              final cubit = context.read<DeckManagementCubit>();
-              cubit.removeDeck(deck);
+              //TODO: zapytaj użytkownika o potwierdzenie
+              await showDeleteDeckConfirmationDialog(context, deck, () {
+                final cubit = context.read<DeckManagementCubit>();
+                cubit.removeDeck(deck);
+              });
             }
         }
       },

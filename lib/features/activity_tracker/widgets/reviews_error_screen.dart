@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class ChartErrorScreen extends StatelessWidget {
+class ReviewsErrorScreen extends StatelessWidget {
   final String message;
 
-  const ChartErrorScreen({
+  const ReviewsErrorScreen({
     super.key,
     this.message = "Failed to load data.",
   });

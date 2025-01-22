@@ -9,7 +9,7 @@ import '../../features/authentication/data/auth_service.dart';
 class AppDrawer extends StatelessWidget {
   AppDrawer({super.key});
 
-  final List<String> _routes = ['HomePage', 'StatisticsPage'];
+  final List<String> _routes = ['HomePage', 'BrowserPage', 'StatisticsPage'];
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +37,13 @@ class AppDrawer extends StatelessWidget {
               color: AppTheme.accentColor,
             ),
             label: Text('Decks')),
+        NavigationDrawerDestination(
+            icon: Icon(Icons.copy),
+            selectedIcon: Icon(
+              Icons.copy,
+              color: AppTheme.accentColor,
+            ),
+            label: Text('Card browser')),
         NavigationDrawerDestination(
           icon: Icon(Icons.bar_chart),
           selectedIcon: Icon(

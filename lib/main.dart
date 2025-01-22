@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:memo_deck/core/theme/app_theme.dart';
 import 'package:memo_deck/features/activity_tracker/pages/statistics_page.dart';
+import 'package:memo_deck/features/card_browser/pages/browser_page.dart';
 import 'package:memo_deck/features/manage_flashcard/pages/manage_flashcard_page.dart';
 import 'package:memo_deck/features/authentication/pages/splash_page.dart';
 import 'package:memo_deck/features/authentication/firebase/firebase_options.dart';
@@ -95,6 +96,12 @@ final GoRouter _router = GoRouter(
       builder: (context, state) {
         return StatisticsPage();
       },
-    )
+    ),
+    GoRoute(
+        path: '/browser',
+        name: 'BrowserPage',
+        builder: (context, state) {
+          return BrowserPage();
+        })
   ],
 );

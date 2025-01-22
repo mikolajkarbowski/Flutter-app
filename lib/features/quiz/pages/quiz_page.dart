@@ -31,7 +31,9 @@ class QuizPage extends StatelessWidget {
           appBar: AppBar(
             title: Text('Quiz'),
             actions: [
+              _undo(context),
               _popupMenu(context),
+              // TODO: wywalic to w finalnej wersji
               SizedBox(
                 width: 30,
               )
@@ -56,6 +58,11 @@ class QuizPage extends StatelessWidget {
                   QuizNextCardState() => Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        LinearProgressIndicator(
+                          value: state.quizProgress,
+                          minHeight: 10,
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                        ),
                         Expanded(
                           child: Center(
                             child: ConstrainedBox(
@@ -74,6 +81,8 @@ class QuizPage extends StatelessWidget {
                           child: Row(
                             children: [
                               _quizButton(context, 'Wrong', Colors.red, () {
+                                serviceLocator<StudySessionManager>()
+                                    .reviewCard();
                                 cubit.submitResponse(state.flashcard, 0);
                                 cubit.getNextCard();
                               }),
@@ -81,6 +90,8 @@ class QuizPage extends StatelessWidget {
                                 width: 4,
                               ),
                               _quizButton(context, 'Hard', Colors.yellow, () {
+                                serviceLocator<StudySessionManager>()
+                                    .reviewCard();
                                 cubit.submitResponse(state.flashcard, 2);
                                 cubit.getNextCard();
                               }),
@@ -88,6 +99,8 @@ class QuizPage extends StatelessWidget {
                                 width: 4,
                               ),
                               _quizButton(context, 'Good', Colors.green, () {
+                                serviceLocator<StudySessionManager>()
+                                    .reviewCard();
                                 cubit.submitResponse(state.flashcard, 3);
                                 cubit.getNextCard();
                               }),
@@ -95,6 +108,8 @@ class QuizPage extends StatelessWidget {
                                 width: 4,
                               ),
                               _quizButton(context, 'Easy', Colors.blue, () {
+                                serviceLocator<StudySessionManager>()
+                                    .reviewCard();
                                 cubit.submitResponse(state.flashcard, 5);
                                 cubit.getNextCard();
                               })
@@ -126,12 +141,21 @@ class QuizPage extends StatelessWidget {
     );
   }
 
+  Widget _undo(BuildContext context) {
+    return IconButton(
+        onPressed: () {
+          final cubit = context.read<QuizManagerCubit>();
+          cubit.getPreviousCard();
+        },
+        icon: Icon(Icons.undo, color: AppTheme.subTextColor));
+  }
+
   Widget _popupMenu(BuildContext context) {
     final cubit = context.watch<QuizManagerCubit>();
     return PopupMenuButton<String>(
         icon: Icon(
           Icons.more_vert,
-          color: AppTheme.bodyTextColor,
+          color: AppTheme.subTextColor,
         ),
         onSelected: (value) async {
           switch (value) {

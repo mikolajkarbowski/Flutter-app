@@ -85,6 +85,26 @@ class FlashcardsDataSource {
     return _getFlashcardsWhere(filter);
   }
 
+  Future<FlashcardsBatch> getFlashcardsBatch(
+      int batchSize, DocumentSnapshot? lastDocument) async {
+    Query<Map<String, dynamic>> query =
+        _flashcards.orderBy('cardId', descending: true).limit(batchSize);
+    if (lastDocument != null) {
+      query = query.startAfterDocument(lastDocument);
+    }
+    try {
+      final res = await query.get();
+      final lastDocument = res.docs.lastOrNull;
+      final rawData = res.docs.map((doc) => doc.data()).toList();
+      final flashcards = await compute(_parseFlashcards, rawData);
+
+      return FlashcardsBatch(
+          flashcards: flashcards, lastDocument: lastDocument);
+    } catch (e) {
+      throw 'Failed to get flashcards: $e';
+    }
+  }
+
   void addNewFlashcard(Flashcard flashcard) {
     _flashcards.doc(flashcard.cardId).set(flashcard.toJson());
   }
@@ -104,4 +124,10 @@ class FlashcardsDataSource {
   void removeDeckEntry(String deckId) {
     _decks.doc(deckId).delete();
   }
+}
+
+class FlashcardsBatch {
+  FlashcardsBatch({required this.flashcards, this.lastDocument});
+  List<Flashcard> flashcards;
+  DocumentSnapshot? lastDocument;
 }
