@@ -20,10 +20,14 @@ class DeckManagementCubit extends Cubit<DeckState> {
   }
 
   Future<void> removeDeck(DeckEntry deck) async {
-    dataSource.removeFlashcards(deck.deckId);
-    dataSource.removeDeckEntry(deck.deckId);
-    await delayAction(
-        action: () => emit(DeckState.deckRemoved(deckEntry: deck)));
+    try {
+      dataSource.removeFlashcardsFromDeck(deck.deckId);
+      dataSource.removeDeckEntry(deck.deckId);
+      await delayAction(
+          action: () => emit(DeckState.deckRemoved(deckEntry: deck)));
+    } catch (e) {
+      emit(DeckState.err(err: e));
+    }
   }
 }
 

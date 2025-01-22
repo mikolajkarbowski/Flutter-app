@@ -12,20 +12,47 @@ class FlashcardListCubit extends Cubit<FlashcardListState> {
   DocumentSnapshot? lastDocument;
   final int batchSize = 20;
 
-  Future<void> fetchFlashcards() async {
+  Future<void> fetchFlashcards(String deckId) async {
+    if (state is FlashcardListLoadingState) {
+      return;
+    }
     emit(FlashcardListState.loading());
     try {
-      final res = await dataSource.getFlashcardsBatch(batchSize, lastDocument);
+      Filter? filter;
+      if (deckId != '0') {
+        filter = Filter('deckId', isEqualTo: deckId);
+      }
+      final res =
+          await dataSource.getFlashcardsBatch(batchSize, lastDocument, filter);
       final flashcards = res.flashcards;
-      lastDocument = res.lastDocument;
       if (flashcards.isEmpty) {
         emit(FlashcardListState.end());
         return;
       }
+      lastDocument = res.lastDocument;
       emit(FlashcardListState.ready(flashcards: flashcards));
     } catch (err) {
       emit(FlashcardListState.err(err: err));
     }
+  }
+
+  void removeFlashcard(Flashcard flashcard) {
+    try {
+      dataSource.removeFlashcard(flashcard);
+      emit(FlashcardListState.itemRemoved(removed: flashcard));
+    } catch (e) {
+      emit(FlashcardListState.err(err: e));
+    }
+  }
+
+  void flashcardUpdated(Flashcard oldFlashcard, Flashcard updatedFlashcard) {
+    emit(FlashcardListState.itemUpdated(
+        oldFlashcard: oldFlashcard, updatedFlashcard: updatedFlashcard));
+  }
+
+  void reset() {
+    lastDocument = null;
+    emit(FlashcardListState.initial());
   }
 }
 
@@ -37,6 +64,11 @@ sealed class FlashcardListState with EquatableMixin {
       FlashcardListReadyState;
   factory FlashcardListState.end() = FlashcardListEndState;
   factory FlashcardListState.err({dynamic err}) = FlashcardListErrorState;
+  factory FlashcardListState.itemRemoved({required Flashcard removed}) =
+      FlashcardListItemRemovedState;
+  factory FlashcardListState.itemUpdated(
+      {required Flashcard oldFlashcard,
+      required Flashcard updatedFlashcard}) = FlashcardListItemUpdatedState;
 }
 
 class FlashcardListInitialState extends FlashcardListState {
@@ -72,4 +104,21 @@ class FlashcardListEndState extends FlashcardListState {
 
   @override
   List<Object?> get props => [];
+}
+
+class FlashcardListItemRemovedState extends FlashcardListState {
+  FlashcardListItemRemovedState({required this.removed});
+  final Flashcard removed;
+  @override
+  List<Object?> get props => [removed];
+}
+
+class FlashcardListItemUpdatedState extends FlashcardListState {
+  FlashcardListItemUpdatedState(
+      {required this.oldFlashcard, required this.updatedFlashcard});
+  final Flashcard oldFlashcard;
+  final Flashcard updatedFlashcard;
+
+  @override
+  List<Object?> get props => [oldFlashcard, updatedFlashcard];
 }

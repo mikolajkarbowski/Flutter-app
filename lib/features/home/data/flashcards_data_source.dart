@@ -86,9 +86,13 @@ class FlashcardsDataSource {
   }
 
   Future<FlashcardsBatch> getFlashcardsBatch(
-      int batchSize, DocumentSnapshot? lastDocument) async {
+      int batchSize, DocumentSnapshot? lastDocument, Filter? filter) async {
     Query<Map<String, dynamic>> query =
-        _flashcards.orderBy('cardId', descending: true).limit(batchSize);
+        _flashcards.orderBy('cardId', descending: true);
+    if (filter != null) {
+      query = query.where(filter);
+    }
+    query = query.limit(batchSize);
     if (lastDocument != null) {
       query = query.startAfterDocument(lastDocument);
     }
@@ -113,12 +117,25 @@ class FlashcardsDataSource {
     _flashcards.doc(flashcard.cardId).update(flashcard.toJson());
   }
 
-  Future<void> removeFlashcards(String deckId) async {
-    QuerySnapshot querySnapshot =
-        await _flashcards.where('deckId', isEqualTo: deckId).get();
-    for (var doc in querySnapshot.docs) {
-      doc.reference.delete();
+  Future<void> _removeFlashcardsWhere(Filter filter) async {
+    try {
+      QuerySnapshot querySnapshot = await _flashcards.where(filter).get();
+      for (var doc in querySnapshot.docs) {
+        doc.reference.delete();
+      }
+    } catch (e) {
+      throw 'Failed to remove flashcards: $e';
     }
+  }
+
+  Future<void> removeFlashcardsFromDeck(String deckId) async {
+    Filter filter = Filter('deckId', isEqualTo: deckId);
+    return _removeFlashcardsWhere(filter);
+  }
+
+  Future<void> removeFlashcard(Flashcard flashcard) async {
+    Filter filter = Filter('cardId', isEqualTo: flashcard.cardId);
+    return _removeFlashcardsWhere(filter);
   }
 
   void removeDeckEntry(String deckId) {
