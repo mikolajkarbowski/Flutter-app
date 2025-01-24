@@ -35,9 +35,32 @@ class ActivityHistoryDataSource {
 
   Future<List<StudySession>> loadStudySessionsWithinLastYear() async {
     final now = DateTime.now();
-    final startDate = DateTime(now.year - 1, now.month, now.day);
+    final startDate =
+        DateTime(now.year - 1, now.month, now.day).toIso8601String();
     final Filter filter = Filter.and(Filter('startTime', isNull: false),
-        Filter('startTime', isGreaterThan: startDate.toIso8601String()));
+        Filter('startTime', isGreaterThan: startDate));
+    return await _getStudySessionsWhere(filter);
+  }
+
+  Future<List<StudySession>> loadTodaySessions() async {
+    final now = DateTime.now();
+    final lastMidnight = DateTime(
+      now.year,
+      now.month,
+      now.day,
+    ).toIso8601String();
+    final nextMidnight = DateTime(
+      now.year,
+      now.month,
+      now.day + 1,
+    ).toIso8601String();
+
+    final nullFilter = Filter('startTime', isNull: false);
+    final timeIntervalFilter = Filter.and(
+        Filter('startTime', isGreaterThan: lastMidnight),
+        Filter('startTime', isLessThan: nextMidnight));
+
+    final filter = Filter.and(nullFilter, timeIntervalFilter);
     return await _getStudySessionsWhere(filter);
   }
 }

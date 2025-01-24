@@ -18,6 +18,8 @@ class AuthService {
 
   String get userEmail => currentUser!.email!;
 
+  String get userName => currentUser!.displayName!;
+
   User? get currentUser => firebaseInstance.currentUser;
 
   Future<SignInResult> signInWithEmail(String email, String password) async {

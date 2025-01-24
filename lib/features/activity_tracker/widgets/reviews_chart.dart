@@ -3,9 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:memo_deck/features/activity_tracker/widgets/reviews.dart';
 
+import '../../../shared/widgets/error_screen.dart';
 import '../../../shared/widgets/loading_indicator.dart';
 import '../bloc/reviews_data_cubit.dart';
-import 'reviews_error_screen.dart';
 
 class ReviewsChart extends StatelessWidget {
   const ReviewsChart({super.key});
@@ -21,7 +21,7 @@ class ReviewsChart extends StatelessWidget {
           return switch (state) {
             ReviewsDataInitialState() => LoadingIndicator(),
             ReviewsDataLoadingState() => LoadingIndicator(),
-            ReviewsDataErrorState() => ReviewsErrorScreen(),
+            ReviewsDataErrorState() => ErrorScreen(),
             ReviewsDataReadyState() => BarChart(BarChartData(
                 gridData: FlGridData(show: false),
                 titlesData: FlTitlesData(

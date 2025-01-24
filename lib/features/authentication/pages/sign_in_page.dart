@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:memo_deck/core/theme/app_theme.dart';
+import 'package:memo_deck/core/theme/gradient_background_wrapper.dart';
 import 'package:memo_deck/features/authentication/widgets/action_link_footer.dart';
 import 'package:memo_deck/features/authentication/widgets/auth_action_button.dart';
 import 'package:memo_deck/features/authentication/bloc/auth_cubit.dart';
@@ -46,7 +47,10 @@ class _SignInPageState extends State<SignInPage> {
             }
           },
           child: Scaffold(
-            appBar: AppBar(title: const Text('MemoDeck')),
+            appBar: AppBar(
+              title: const Text('MemoDeck'),
+              flexibleSpace: GradientBackgroundWrapper(),
+            ),
             body: Center(
               child: SingleChildScrollView(
                 child: Padding(
@@ -70,6 +74,13 @@ class _SignInPageState extends State<SignInPage> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          Text(
+                            'Sign in',
+                            style: AppTheme.headlineLarge,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           EmailField(
                             controller: _emailController,
                           ),

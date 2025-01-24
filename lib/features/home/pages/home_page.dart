@@ -7,6 +7,7 @@ import 'package:memo_deck/features/home/data/flashcards_data_source.dart';
 import 'package:memo_deck/shared/models/deck_entry.dart';
 import 'package:memo_deck/shared/utilities/app_drawer.dart';
 import 'package:memo_deck/shared/utilities/snack_bar_utils.dart';
+import 'package:memo_deck/shared/widgets/error_screen.dart';
 import 'package:memo_deck/shared/widgets/loading_screen.dart';
 
 import '../widgets/deck_list.dart';
@@ -53,9 +54,10 @@ class HomePage extends StatelessWidget {
                     serviceLocator<FlashcardsDataSource>().deckEntriesStream,
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
-                    //TODO: dodac obsluge
-                    return Container(
-                      color: Colors.red,
+                    return Scaffold(
+                      appBar: AppBar(),
+                      drawer: AppDrawer(),
+                      body: ErrorScreen(),
                     );
                   } else if (snapshot.hasData) {
                     return DeckList(

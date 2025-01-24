@@ -56,7 +56,7 @@ class Reviews extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
                         'Reviews',
@@ -67,6 +67,7 @@ class Reviews extends StatelessWidget {
                     ],
                   ),
                 ),
+                Divider(),
                 Text(dataType == ReviewsMetric.reviewsTime
                     ? 'The time taken to answer the questions'
                     : 'The number of questions you have answered'),

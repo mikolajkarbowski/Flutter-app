@@ -25,14 +25,11 @@ class _PasswordFieldState extends State<PasswordField> {
           hintText: 'Enter password',
           suffixIcon: IconButton(
             icon: Icon(
-              _obscureText
-                  ? Icons.visibility
-                  : Icons
-                      .visibility_off, // Ikony zmieniają się w zależności od stanu
+              _obscureText ? Icons.visibility : Icons.visibility_off,
             ),
             onPressed: () {
               setState(() {
-                _obscureText = !_obscureText; // Zmiana widoczności hasła
+                _obscureText = !_obscureText;
               });
             },
           ),

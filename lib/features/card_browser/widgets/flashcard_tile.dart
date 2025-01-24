@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:memo_deck/features/card_browser/bloc/flashcard_list_cubit.dart';
 
+import '../../../core/theme/app_theme.dart';
 import '../../../shared/models/flashcard.dart';
 
 class FlashcardTile extends StatelessWidget {
@@ -22,9 +23,17 @@ class FlashcardTile extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(child: Text(flashcard.question)),
+              Expanded(
+                  child: Text(
+                flashcard.question,
+                style: AppTheme.bodyLarge,
+              )),
               VerticalDivider(),
-              Expanded(child: Text(flashcard.answer)),
+              Expanded(
+                  child: Text(
+                flashcard.answer,
+                style: AppTheme.bodyLarge,
+              )),
               VerticalDivider(),
               _flashcardMenu(context),
             ],

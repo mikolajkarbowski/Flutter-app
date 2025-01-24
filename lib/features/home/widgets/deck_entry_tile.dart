@@ -52,7 +52,6 @@ class DeckEntryTile extends StatelessWidget {
                 pathParameters: {'deckId': deck.deckId});
           case 'remove_deck':
             {
-              //TODO: zapytaj użytkownika o potwierdzenie
               await showDeleteDeckConfirmationDialog(context, deck, () {
                 final cubit = context.read<DeckManagementCubit>();
                 cubit.removeDeck(deck);

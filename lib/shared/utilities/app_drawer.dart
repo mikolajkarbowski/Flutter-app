@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../core/service_locator.dart';
 import '../../core/theme/app_theme.dart';
@@ -24,11 +25,22 @@ class AppDrawer extends StatelessWidget {
         context.goNamed(_routes[index]);
       },
       children: [
-        DrawerHeader(
+        UserAccountsDrawerHeader(
           decoration: BoxDecoration(
             color: AppTheme.accentColor,
+            gradient: LinearGradient(
+              colors: [
+                Colors.blueAccent,
+                Colors.purple,
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
           ),
-          child: Text('Menu'),
+          accountEmail: Text(serviceLocator<AuthService>().userEmail),
+          accountName: Text('MemoDeck'),
+          currentAccountPicture:
+              Lottie.asset('assets/animations/avatar_animation.json'),
         ),
         NavigationDrawerDestination(
             icon: Icon(Icons.list),

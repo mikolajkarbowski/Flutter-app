@@ -6,6 +6,7 @@ import 'package:memo_deck/features/card_browser/widgets/flashcards_list.dart';
 import 'package:memo_deck/features/home/data/flashcards_data_source.dart';
 import 'package:memo_deck/features/manage_flashcard/bloc/deck_fetch_cubit.dart';
 import 'package:memo_deck/shared/utilities/app_drawer.dart';
+import 'package:memo_deck/shared/widgets/error_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../../shared/models/deck_entry.dart';
@@ -43,10 +44,8 @@ class BrowserPage extends StatelessWidget {
           return switch (state) {
             DeckListInitialState() => Scaffold(body: LoadingScreen()),
             DeckListLoadingState() => Scaffold(body: LoadingScreen()),
-            DeckListErrorState() => Container(
-                //TODO: dodaj obsluge tego bledu
-                color: Colors.red,
-              ),
+            DeckListErrorState() => Scaffold(
+                appBar: AppBar(), drawer: AppDrawer(), body: ErrorScreen()),
             DeckListReadyState() => Scaffold(
                 appBar: AppBar(
                   title: ConstrainedBox(
@@ -55,7 +54,7 @@ class BrowserPage extends StatelessWidget {
                 ),
                 drawer: AppDrawer(),
                 body: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(left: 8, bottom: 8, right: 8),
                   child: FlashcardsList(
                     deckId: context
                         .watch<BrowseParametersNotifier>()

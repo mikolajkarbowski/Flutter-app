@@ -6,7 +6,9 @@ import 'package:memo_deck/features/manage_flashcard/bloc/deck_fetch_cubit.dart';
 import 'package:memo_deck/features/manage_flashcard/bloc/flashcard_manager_cubit.dart';
 import 'package:memo_deck/features/home/data/flashcards_data_source.dart';
 import 'package:memo_deck/shared/models/deck_entry.dart';
+import 'package:memo_deck/shared/utilities/app_drawer.dart';
 import 'package:memo_deck/shared/utilities/snack_bar_utils.dart';
+import 'package:memo_deck/shared/widgets/error_screen.dart';
 import 'package:memo_deck/shared/widgets/loading_indicator.dart';
 import 'package:memo_deck/shared/widgets/loading_screen.dart';
 
@@ -90,9 +92,10 @@ class _ManageFlashcardPageState extends State<ManageFlashcardPage> {
               return switch (state) {
                 DeckListInitialState() => LoadingScreen(),
                 DeckListLoadingState() => LoadingScreen(),
-                DeckListErrorState() => Container(
-                    //TODO: dodaj obsluge tego bledu
-                    color: Colors.red,
+                DeckListErrorState() => Scaffold(
+                    appBar: AppBar(),
+                    drawer: AppDrawer(),
+                    body: ErrorScreen(),
                   ),
                 DeckListReadyState() => _managePage(context, state.deckEntries),
               };

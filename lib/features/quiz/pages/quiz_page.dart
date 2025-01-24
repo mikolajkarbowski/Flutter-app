@@ -33,10 +33,6 @@ class QuizPage extends StatelessWidget {
             actions: [
               _undo(context),
               _popupMenu(context),
-              // TODO: wywalic to w finalnej wersji
-              SizedBox(
-                width: 30,
-              )
             ],
           ),
           body: Padding(
@@ -80,7 +76,7 @@ class QuizPage extends StatelessWidget {
                           ),
                           child: Row(
                             children: [
-                              _quizButton(context, 'Wrong', Colors.red, () {
+                              _quizButton(context, 'Again', Colors.red, () {
                                 serviceLocator<StudySessionManager>()
                                     .reviewCard();
                                 cubit.submitResponse(state.flashcard, 0);

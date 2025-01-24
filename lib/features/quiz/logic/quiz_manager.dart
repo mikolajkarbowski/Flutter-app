@@ -15,6 +15,9 @@ class QuizManager {
   int answerCount = 0;
 
   double get quizProgress {
+    if (answerCount + flashcards.length == 0) {
+      return 0;
+    }
     return answerCount / (answerCount + flashcards.length);
   }
 
@@ -24,14 +27,16 @@ class QuizManager {
 
   void submitResponse(Flashcard flashcard, double grade) {
     answerCount += 1;
-    answeredFlashcards.remove(flashcard);
+
+    flashcards.remove(flashcard);
+    answeredFlashcards.removeWhere((card) => card.cardId == flashcard.cardId);
     answeredFlashcards.add(flashcard);
+
     final updatedFlashcard = SuperMemo.sm2Algorithm(flashcard, grade);
     dataSource.updateFlashcard(updatedFlashcard);
-    if (updatedFlashcard.interval != 0) {
-      flashcards.remove(flashcard);
-    } else if (!flashcards.contains(flashcard)) {
-      flashcards.add(flashcard);
+
+    if (updatedFlashcard.interval == 0) {
+      flashcards.add(updatedFlashcard);
     }
   }
 

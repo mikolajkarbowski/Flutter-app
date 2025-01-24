@@ -75,7 +75,9 @@ class ReviewsDataCubit extends Cubit<ReviewsDataState> {
           toY: metric == ReviewsMetric.reviewsTime
               ? timeRounded
               : cardsAnswered[i].toDouble(),
-          color: metric == ReviewsMetric.reviewsTime ? Colors.blue : Colors.red,
+          color: metric == ReviewsMetric.reviewsTime
+              ? Color(0xffdb3d86)
+              : Color(0xff6f3ddb),
         ),
       ]));
     }

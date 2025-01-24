@@ -6,6 +6,7 @@ import 'package:memo_deck/shared/models/flashcard.dart';
 class QuizManagerCubit extends Cubit<QuizState> {
   QuizManagerCubit({required this.quizManager}) : super(QuizState.initial());
   final QuizManager quizManager;
+
   Future<void> startQuiz() async {
     emit(QuizState.loading());
     try {

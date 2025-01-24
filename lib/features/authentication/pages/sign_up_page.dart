@@ -70,6 +70,13 @@ class _SignUpPageState extends State<SignUpPage> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+                          Text(
+                            'Sign up',
+                            style: AppTheme.headlineLarge,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           EmailField(controller: _emailController),
                           const SizedBox(
                             height: 10,

@@ -73,6 +73,7 @@ class _FlashcardsListState extends State<FlashcardsList> {
       child: BlocBuilder<FlashcardListCubit, FlashcardListState>(
           builder: (context, state) {
         return ListView.separated(
+          padding: EdgeInsets.only(top: 5),
           controller: _scrollController,
           itemCount: _flashcards.length + 1,
           itemBuilder: (context, index) {
