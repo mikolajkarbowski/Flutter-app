@@ -97,7 +97,7 @@ class QuizPage extends StatelessWidget {
                               _quizButton(context, 'Good', Colors.green, () {
                                 serviceLocator<StudySessionManager>()
                                     .reviewCard();
-                                cubit.submitResponse(state.flashcard, 3);
+                                cubit.submitResponse(state.flashcard, 3.5);
                                 cubit.getNextCard();
                               }),
                               const SizedBox(
@@ -183,20 +183,6 @@ class QuizPage extends StatelessWidget {
                           width: 8,
                         ),
                         Text('Edit'),
-                      ],
-                    )),
-                const PopupMenuItem(
-                    value: 'Delete',
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.delete,
-                          color: Colors.red,
-                        ),
-                        SizedBox(
-                          width: 8,
-                        ),
-                        Text('Delete'),
                       ],
                     )),
               ]

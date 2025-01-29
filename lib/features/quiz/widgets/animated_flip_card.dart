@@ -92,11 +92,14 @@ class _AnimatedFlipCardState extends State<AnimatedFlipCard>
     return Card(
       color: color,
       margin: EdgeInsets.all(16),
-      child: Center(
-        child: Text(
-          text,
-          style: AppTheme.bodyLarge,
-          textAlign: TextAlign.center,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(
+          child: Text(
+            text,
+            style: AppTheme.bodyLarge,
+            textAlign: TextAlign.center,
+          ),
         ),
       ),
     );

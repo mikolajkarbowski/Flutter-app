@@ -73,11 +73,13 @@ class BrowserPage extends StatelessWidget {
 
     return DropdownButtonFormField<String>(
         value: context.watch<BrowseParametersNotifier>().selectedDeckId,
+        isExpanded: true,
         decoration: const InputDecoration(border: OutlineInputBorder()),
         items: deckEntries.map((deckEntry) {
           return DropdownMenuItem(
             value: deckEntry.deckId,
             child: Text(
+              overflow: TextOverflow.ellipsis,
               deckEntry.name,
             ),
           );

@@ -66,7 +66,11 @@ class _FlashcardsListState extends State<FlashcardsList> {
           int index = _flashcards
               .indexWhere((e) => e.cardId == state.oldFlashcard.cardId);
           if (index != -1) {
-            _flashcards[index] = state.updatedFlashcard;
+            if (state.oldFlashcard.deckId == state.updatedFlashcard.deckId) {
+              _flashcards[index] = state.updatedFlashcard;
+            } else {
+              _flashcards.removeAt(index);
+            }
           }
         }
       },

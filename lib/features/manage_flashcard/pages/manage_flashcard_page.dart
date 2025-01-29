@@ -138,6 +138,7 @@ class _ManageFlashcardPageState extends State<ManageFlashcardPage> {
   Widget _deckDropdownMenu(List<DeckEntry> deckEntries) {
     return DropdownButtonFormField<String>(
         value: selectedDeckId,
+        isExpanded: true,
         decoration: const InputDecoration(
           labelText: 'Deck',
           border: OutlineInputBorder(),
@@ -145,7 +146,7 @@ class _ManageFlashcardPageState extends State<ManageFlashcardPage> {
         items: deckEntries.map((deckEntry) {
           return DropdownMenuItem(
             value: deckEntry.deckId,
-            child: Text(deckEntry.name),
+            child: Text(deckEntry.name, overflow: TextOverflow.ellipsis),
           );
         }).toList(),
         onChanged: (value) {

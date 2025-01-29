@@ -51,7 +51,7 @@ class FlashcardTile extends StatelessWidget {
         switch (value) {
           case 'remove_card':
             {
-              context.read<FlashcardListCubit>().removeFlashcard(flashcard);
+              listCubit.removeFlashcard(flashcard);
             }
           case 'edit_card':
             {
@@ -68,6 +68,17 @@ class FlashcardTile extends StatelessWidget {
       },
       itemBuilder: (context) => [
         const PopupMenuItem(
+            value: 'edit_card',
+            child: Row(
+              children: [
+                Icon(Icons.edit),
+                SizedBox(
+                  width: 8,
+                ),
+                Text('Edit card'),
+              ],
+            )),
+        const PopupMenuItem(
             value: 'remove_card',
             child: Row(
               children: [
@@ -81,17 +92,6 @@ class FlashcardTile extends StatelessWidget {
                 Text('Remove card'),
               ],
             )),
-        const PopupMenuItem(
-            value: 'edit_card',
-            child: Row(
-              children: [
-                Icon(Icons.edit),
-                SizedBox(
-                  width: 8,
-                ),
-                Text('Edit card'),
-              ],
-            ))
       ],
     );
   }
