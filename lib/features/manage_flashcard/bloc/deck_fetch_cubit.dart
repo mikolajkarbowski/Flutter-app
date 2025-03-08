@@ -11,10 +11,10 @@ class DeckFetchCubit extends Cubit<DeckListState> {
   Future<void> fetchDeckEntries() async {
     emit(DeckListState.loading());
     try {
-      List<DeckEntry> entries = await dataSource.getAllDeckEntries();
+      final List<DeckEntry> entries = await dataSource.getAllDeckEntries();
       emit(DeckListState.ready(deckEntries: entries));
-    } catch (e) {
-      emit(DeckListState.err(err: e));
+    } catch (err) {
+      emit(DeckListState.err(err: err));
     }
   }
 }
@@ -49,5 +49,5 @@ class DeckListErrorState extends DeckListState {
   DeckListErrorState({this.err});
   final dynamic err;
   @override
-  List<Object?> get props => err;
+  List<Object?> get props => [err];
 }

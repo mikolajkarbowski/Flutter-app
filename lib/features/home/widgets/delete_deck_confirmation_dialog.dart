@@ -4,19 +4,19 @@ import 'package:memo_deck/shared/models/deck_entry.dart';
 import '../../../core/theme/app_theme.dart';
 
 class DeleteDeckConfirmationDialog extends StatelessWidget {
-  final DeckEntry deckEntry;
-  final VoidCallback onConfirm;
 
   const DeleteDeckConfirmationDialog({
     super.key,
     required this.deckEntry,
     required this.onConfirm,
   });
+  final DeckEntry deckEntry;
+  final VoidCallback onConfirm;
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Confirm deletion'),
+      title: const Text('Confirm deletion'),
       content: Text(
         'Are you sure you want to delete "${deckEntry.name}"?\n'
         ' This operation is irreversible.',
@@ -25,7 +25,7 @@ class DeleteDeckConfirmationDialog extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: Text(
+          child: const Text(
             'Cancel',
             style: AppTheme.bodyLarge,
           ),
@@ -38,7 +38,7 @@ class DeleteDeckConfirmationDialog extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.red,
           ),
-          child: Text(
+          child: const Text(
             'Delete',
             style: AppTheme.bodyLarge,
           ),
@@ -49,7 +49,7 @@ class DeleteDeckConfirmationDialog extends StatelessWidget {
 }
 
 Future<void> showDeleteDeckConfirmationDialog(
-    BuildContext context, DeckEntry deckEntry, VoidCallback onConfirm) {
+    BuildContext context, DeckEntry deckEntry, VoidCallback onConfirm,) {
   return showDialog(
     context: context,
     builder: (context) => DeleteDeckConfirmationDialog(

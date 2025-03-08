@@ -22,10 +22,10 @@ class _AnimatedFlipCardState extends State<AnimatedFlipCard>
   void initState() {
     super.initState();
     _controller =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 600));
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 600));
     _animation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
+      begin: 0,
+      end: 1,
     ).animate(_controller);
     flashcard = widget.flashcard;
   }
@@ -64,7 +64,7 @@ class _AnimatedFlipCardState extends State<AnimatedFlipCard>
                 alignment: Alignment.center,
                 child: isFrontVisible
                     ? _buildCard(
-                        flashcard.question, AppTheme.flashcardFrontColor)
+                        flashcard.question, AppTheme.flashcardFrontColor,)
                     : Transform(
                         transform: Matrix4.rotationY(pi),
                         alignment: Alignment.center,
@@ -74,7 +74,7 @@ class _AnimatedFlipCardState extends State<AnimatedFlipCard>
                         ),
                       ),
               );
-            }),
+            },),
       ),
     );
   }
@@ -91,9 +91,9 @@ class _AnimatedFlipCardState extends State<AnimatedFlipCard>
   Widget _buildCard(String text, Color color) {
     return Card(
       color: color,
-      margin: EdgeInsets.all(16),
+      margin: const EdgeInsets.all(16),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8),
         child: Center(
           child: Text(
             text,

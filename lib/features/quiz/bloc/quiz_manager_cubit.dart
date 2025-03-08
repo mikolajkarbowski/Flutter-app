@@ -25,7 +25,7 @@ class QuizManagerCubit extends Cubit<QuizState> {
     quizManager.flashcardChanged(oldFlashcard, newFlashcard);
     if (newFlashcard.deckId == quizManager.deckId) {
       emit(QuizState.nextCard(
-          flashcard: newFlashcard, quizProgress: quizManager.quizProgress));
+          flashcard: newFlashcard, quizProgress: quizManager.quizProgress,),);
     } else {
       getNextCard();
     }
@@ -42,7 +42,7 @@ class QuizManagerCubit extends Cubit<QuizState> {
       return;
     }
     emit(QuizState.nextCard(
-        flashcard: flashcard, quizProgress: quizManager.quizProgress));
+        flashcard: flashcard, quizProgress: quizManager.quizProgress,),);
   }
 
   void getPreviousCard() {
@@ -53,7 +53,7 @@ class QuizManagerCubit extends Cubit<QuizState> {
     final Flashcard? previous = quizManager.getPreviousFlashcard();
     if (previous != null) {
       emit(QuizState.nextCard(
-          flashcard: previous, quizProgress: quizManager.quizProgress));
+          flashcard: previous, quizProgress: quizManager.quizProgress,),);
     }
   }
 }
@@ -64,7 +64,7 @@ sealed class QuizState with EquatableMixin {
   factory QuizState.loading() = QuizLoadingState;
   factory QuizState.nextCard(
       {required Flashcard flashcard,
-      required double quizProgress}) = QuizNextCardState;
+      required double quizProgress,}) = QuizNextCardState;
   factory QuizState.end() = QuizEndState;
   factory QuizState.err({dynamic err}) = QuizErrorState;
 }

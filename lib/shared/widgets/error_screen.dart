@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class ErrorScreen extends StatelessWidget {
-  final String message;
 
   const ErrorScreen({
     super.key,
-    this.message = "Failed to load data.",
+    this.message = 'Failed to load data.',
   });
+  final String message;
 
   @override
   Widget build(BuildContext context) {
@@ -14,16 +14,16 @@ class ErrorScreen extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
+          const Icon(
             Icons.error_outline,
             color: Colors.red,
             size: 64,
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Text(
             message,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 16, color: Colors.black54),
+            style: const TextStyle(fontSize: 16, color: Colors.black54),
           ),
         ],
       ),

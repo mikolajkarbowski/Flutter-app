@@ -2,50 +2,50 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   // Główne kolory
-  static final primaryColor = const Color(0xff9a62de);
-  static final accentColor = const Color(0xFF2742b0);
-  static final backgroundColor = Color(0xffc2abde);
+  static const primaryColor = Color(0xff9a62de);
+  static const accentColor = Color(0xFF2742b0);
+  static const backgroundColor = Color(0xffc2abde);
 
   // Kolory dla tekstu
-  static final headlineColor = Colors.black;
-  static final bodyTextColor = Colors.black87;
-  static final subTextColor = Colors.black54;
+  static const headlineColor = Colors.black;
+  static const bodyTextColor = Colors.black87;
+  static const subTextColor = Colors.black54;
 
   // Kolory przycisków
-  static final buttonColor = accentColor;
-  static final disabledButtonColor = Colors.grey;
+  static const buttonColor = accentColor;
+  static const disabledButtonColor = Colors.grey;
 
   // Kolory kart i innych elementów
-  static final cardColor = Colors.white;
-  static final cardShadowColor = Colors.black45;
+  static const cardColor = Colors.white;
+  static const cardShadowColor = Colors.black45;
 
   // Kolory kart fiszek
-  static final flashcardFrontColor = const Color(0xFFBBDEFB);
-  static final flashcardBackColor = const Color(0xFFC8E6C9);
+  static const flashcardFrontColor = Color(0xFFBBDEFB);
+  static const flashcardBackColor = Color(0xFFC8E6C9);
 
   // Kolory do statusów
-  static final errorColor = const Color(0xFFD32F2F);
-  static final warningColor = const Color(0xFFFFA000);
-  static final successColor = const Color(0xFF388E3C);
+  static const errorColor = Color(0xFFD32F2F);
+  static const warningColor = Color(0xFFFFA000);
+  static const successColor = Color(0xFF388E3C);
 
   // Kolory tła
-  static final scaffoldBackgroundColor = backgroundColor;
-  static final appBarColor = primaryColor;
+  static const scaffoldBackgroundColor = backgroundColor;
+  static const appBarColor = primaryColor;
 
   // Stylizacja tekstu
-  static final headlineLarge = TextStyle(
-    fontSize: 24.0,
+  static const headlineLarge = TextStyle(
+    fontSize: 24,
     fontWeight: FontWeight.bold,
     color: headlineColor,
   );
 
-  static final bodyLarge = TextStyle(
-    fontSize: 16.0,
+  static const bodyLarge = TextStyle(
+    fontSize: 16,
     color: bodyTextColor,
   );
 
-  static final bodyMedium = TextStyle(
-    fontSize: 14.0,
+  static const bodyMedium = TextStyle(
+    fontSize: 14,
     color: subTextColor,
   );
 
@@ -54,35 +54,35 @@ class AppTheme {
     primarySwatch: Colors.purple,
     primaryColor: primaryColor,
     scaffoldBackgroundColor: scaffoldBackgroundColor,
-    appBarTheme: AppBarTheme(
+    appBarTheme: const AppBarTheme(
       backgroundColor: appBarColor,
     ),
-    textTheme: TextTheme(
+    textTheme: const TextTheme(
       headlineLarge: headlineLarge,
       bodyLarge: bodyLarge,
       bodyMedium: bodyMedium,
     ),
-    buttonTheme: ButtonThemeData(
+    buttonTheme: const ButtonThemeData(
       buttonColor: buttonColor,
       textTheme: ButtonTextTheme.primary,
     ),
     cardTheme: CardTheme(
       color: cardColor,
-      margin: const EdgeInsets.all(8.0),
+      margin: const EdgeInsets.all(8),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
+        borderRadius: BorderRadius.circular(10),
       ),
-      elevation: 3.0,
+      elevation: 3,
       shadowColor: cardShadowColor,
     ),
     inputDecorationTheme: InputDecorationTheme(
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12.0),
-        borderSide: BorderSide(color: primaryColor),
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: primaryColor),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12.0),
-        borderSide: BorderSide(color: accentColor),
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: accentColor),
       ),
     ),
     hintColor: subTextColor,

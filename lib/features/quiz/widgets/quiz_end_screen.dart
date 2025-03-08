@@ -11,20 +11,19 @@ class QuizEndScreen extends StatelessWidget {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(
+          const Icon(
             Icons.check_circle_outline,
             size: 100,
             color: Colors.green,
           ),
           const SizedBox(height: 20),
-          Text(
+          const Text(
             'Well done!\n'
             ' There are no cards left to review for now.\n'
             ' Check back soon for more practice.',
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),

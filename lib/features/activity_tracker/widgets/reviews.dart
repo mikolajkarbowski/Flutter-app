@@ -46,46 +46,45 @@ class Reviews extends StatelessWidget {
       create: (context) => ReviewsDataNotifier(),
       child: BlocProvider(
         create: (context) => ReviewsDataCubit(
-            dataSource: serviceLocator<ActivityHistoryDataSource>())
+            dataSource: serviceLocator<ActivityHistoryDataSource>(),)
           ..fetchData(),
         child: Builder(builder: (context) {
           final dataType = context.watch<ReviewsDataNotifier>().metric;
           return Card(
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8),
+                const Padding(
+                  padding: EdgeInsets.all(8),
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
                         'Reviews',
                         style: AppTheme.headlineLarge,
                       ),
                       Spacer(),
-                      ReviewsMetricToggle()
+                      ReviewsMetricToggle(),
                     ],
                   ),
                 ),
-                Divider(),
+                const Divider(),
                 Text(dataType == ReviewsMetric.reviewsTime
                     ? 'The time taken to answer the questions'
-                    : 'The number of questions you have answered'),
-                SizedBox(
+                    : 'The number of questions you have answered',),
+                const SizedBox(
                   height: 10,
                 ),
-                TimeInterval(),
+                const TimeInterval(),
                 ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: 800, maxHeight: 400),
-                  child: ReviewsChart(),
+                  constraints: const BoxConstraints(maxWidth: 800, maxHeight: 400),
+                  child: const ReviewsChart(),
                 ),
                 ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: 800, maxHeight: 140),
-                    child: SummaryStatistics()),
+                    constraints: const BoxConstraints(maxWidth: 800, maxHeight: 140),
+                    child: const SummaryStatistics(),),
               ],
             ),
           );
-        }),
+        },),
       ),
     );
   }

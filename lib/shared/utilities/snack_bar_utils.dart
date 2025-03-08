@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class SnackBarUtils {
   static void showSnackBar(BuildContext context, String message,
-      {Duration duration = const Duration(seconds: 3)}) {
+      {Duration duration = const Duration(seconds: 3),}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
@@ -12,13 +12,13 @@ class SnackBarUtils {
   }
 
   static void showSuccessSnackBar(BuildContext context, String message,
-      {Duration duration = const Duration(seconds: 3)}) {
+      {Duration duration = const Duration(seconds: 3),}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Row(
           children: [
-            Icon(Icons.check_circle, color: Colors.green),
-            SizedBox(width: 10),
+            const Icon(Icons.check_circle, color: Colors.green),
+            const SizedBox(width: 10),
             Expanded(child: Text(message)),
           ],
         ),
@@ -28,13 +28,13 @@ class SnackBarUtils {
   }
 
   static void showErrorSnackBar(BuildContext context, String message,
-      {Duration duration = const Duration(seconds: 3)}) {
+      {Duration duration = const Duration(seconds: 3),}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Row(
           children: [
-            Icon(Icons.error, color: Colors.red),
-            SizedBox(width: 10),
+            const Icon(Icons.error, color: Colors.red),
+            const SizedBox(width: 10),
             Expanded(child: Text(message)),
           ],
         ),

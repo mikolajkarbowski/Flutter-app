@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -13,7 +15,7 @@ class DeckEntryTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.symmetric(horizontal: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 10),
       child: ListTile(
         title: Text(deck.name),
         trailing: Row(
@@ -37,7 +39,7 @@ class DeckEntryTile extends StatelessWidget {
           await context.pushNamed('QuizPage', extra: deck.deckId);
           serviceLocator<StudySessionManager>().endSession();
         },
-        child: Text('Practice'));
+        child: const Text('Practice'),);
   }
 
   Widget _deckMenu(BuildContext context) {
@@ -48,13 +50,13 @@ class DeckEntryTile extends StatelessWidget {
       onSelected: (value) async {
         switch (value) {
           case 'add_card':
-            context.pushNamed('ManageFlashcardPage',
-                pathParameters: {'deckId': deck.deckId});
+            unawaited(context.pushNamed('ManageFlashcardPage',
+                pathParameters: {'deckId': deck.deckId},),);
           case 'remove_deck':
             {
               await showDeleteDeckConfirmationDialog(context, deck, () {
-                final cubit = context.read<DeckManagementCubit>();
-                cubit.removeDeck(deck);
+                context.read<DeckManagementCubit>()
+                .removeDeck(deck);
               });
             }
         }

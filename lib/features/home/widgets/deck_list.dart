@@ -11,10 +11,10 @@ class DeckList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (decks.isEmpty) {
-      return EmptyDecksList();
+      return const EmptyDecksList();
     }
     return ListView.separated(
-      padding: EdgeInsets.only(top: 5, bottom: 80),
+      padding: const EdgeInsets.only(top: 5, bottom: 80),
       itemBuilder: (context, index) {
         return DeckEntryTile(deck: decks.elementAt(index));
       },

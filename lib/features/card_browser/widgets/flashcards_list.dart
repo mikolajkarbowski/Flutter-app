@@ -63,7 +63,7 @@ class _FlashcardsListState extends State<FlashcardsList> {
           _flashcards.remove(state.removed);
         }
         if (state is FlashcardListItemUpdatedState) {
-          int index = _flashcards
+          final int index = _flashcards
               .indexWhere((e) => e.cardId == state.oldFlashcard.cardId);
           if (index != -1) {
             if (state.oldFlashcard.deckId == state.updatedFlashcard.deckId) {
@@ -77,27 +77,27 @@ class _FlashcardsListState extends State<FlashcardsList> {
       child: BlocBuilder<FlashcardListCubit, FlashcardListState>(
           builder: (context, state) {
         return ListView.separated(
-          padding: EdgeInsets.only(top: 5),
+          padding: const EdgeInsets.only(top: 5),
           controller: _scrollController,
           itemCount: _flashcards.length + 1,
           itemBuilder: (context, index) {
             if (index == _flashcards.length) {
               return Center(
                 child: state is FlashcardListLoadingState
-                    ? LinearProgressIndicator()
-                    : SizedBox.shrink(),
+                    ? const LinearProgressIndicator()
+                    : const SizedBox.shrink(),
               );
             }
             final flashcard = _flashcards[index];
             return FlashcardTile(flashcard: flashcard);
           },
-          separatorBuilder: (BuildContext context, int index) {
-            return SizedBox(
+          separatorBuilder: (context, index) {
+            return const SizedBox(
               height: 5,
             );
           },
         );
-      }),
+      },),
     );
   }
 }

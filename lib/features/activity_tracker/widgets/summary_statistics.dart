@@ -10,16 +10,16 @@ class SummaryStatistics extends StatelessWidget {
   Widget build(BuildContext context) {
     final notifier = context.read<ReviewsDataNotifier>();
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8),
       child: BlocBuilder<ReviewsDataCubit, ReviewsDataState>(
           builder: (context, state) {
         if (state is! ReviewsDataReadyState) {
-          return SizedBox.shrink();
+          return const SizedBox.shrink();
         }
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(
+            const Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
@@ -45,30 +45,30 @@ class SummaryStatistics extends StatelessWidget {
                 children: [
                   Text('${state.daysStudied} of ${state.daysInTimeRange} '
                       '(${((state.daysStudied / state.daysInTimeRange) * 100).toStringAsFixed(2)}%)'),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Text(notifier.metric == ReviewsMetric.reviewsTime
                       ? '${state.totalTime.toStringAsFixed(2)} minutes'
-                      : '${state.totalAnswers} reviews'),
-                  SizedBox(
+                      : '${state.totalAnswers} reviews',),
+                  const SizedBox(
                     height: 5,
                   ),
                   Text(notifier.metric == ReviewsMetric.reviewsTime
                       ? '${(state.totalTime / state.daysStudied).toStringAsFixed(2)} minute/day'
-                      : '${(state.totalAnswers / state.daysStudied).toStringAsFixed(2)} reviews/day'),
-                  SizedBox(
+                      : '${(state.totalAnswers / state.daysStudied).toStringAsFixed(2)} reviews/day',),
+                  const SizedBox(
                     height: 5,
                   ),
                   Text(notifier.metric == ReviewsMetric.reviewsTime
                       ? '${(state.totalTime / state.daysInTimeRange).toStringAsFixed(2)} minute/day'
-                      : '${(state.totalAnswers / state.daysInTimeRange).toStringAsFixed(2)} reviews/day'),
+                      : '${(state.totalAnswers / state.daysInTimeRange).toStringAsFixed(2)} reviews/day',),
                 ],
               ),
             ),
           ],
         );
-      }),
+      },),
     );
   }
 }

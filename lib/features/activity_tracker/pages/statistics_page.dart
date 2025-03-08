@@ -10,14 +10,14 @@ class StatisticsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Statistics'),
+        title: const Text('Statistics'),
       ),
       drawer: AppDrawer(),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         child: ListView(
-          padding: EdgeInsets.only(top: 5),
-          children: [
+          padding: const EdgeInsets.only(top: 5),
+          children: const[
             DailyStats(),
             Reviews(),
           ],

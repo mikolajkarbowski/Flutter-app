@@ -14,35 +14,31 @@ class ReviewsChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16),
         child: BlocBuilder<ReviewsDataCubit, ReviewsDataState>(
             builder: (context, state) {
           final dataNotifier = context.read<ReviewsDataNotifier>();
           return switch (state) {
-            ReviewsDataInitialState() => LoadingIndicator(),
-            ReviewsDataLoadingState() => LoadingIndicator(),
-            ReviewsDataErrorState() => ErrorScreen(),
+            ReviewsDataInitialState() => const LoadingIndicator(),
+            ReviewsDataLoadingState() => const LoadingIndicator(),
+            ReviewsDataErrorState() => const ErrorScreen(),
             ReviewsDataReadyState() => BarChart(BarChartData(
-                gridData: FlGridData(show: false),
+                gridData: const FlGridData(show: false),
                 titlesData: FlTitlesData(
-                    leftTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: false,
-                      ),
-                    ),
+                    leftTitles: const AxisTitles(),
                     rightTitles: AxisTitles(
                         sideTitles: SideTitles(
                       showTitles: true,
                       getTitlesWidget: (value, meta) {
-                        String metric = '';
+                        var metric = '';
                         if (dataNotifier.metric == ReviewsMetric.reviewsTime) {
                           metric = 'min';
                         }
                         return Text('  ${value.toInt()} $metric',
-                            style: TextStyle(fontSize: 12));
+                            style: const TextStyle(fontSize: 12),);
                       },
                       reservedSize: 50,
-                    )),
+                    ),),
                     bottomTitles: AxisTitles(
                       sideTitles: SideTitles(
                           showTitles: true,
@@ -51,17 +47,15 @@ class ReviewsChart extends StatelessWidget {
                             if (value % 10 == 0) {
                               return Text('${value.toInt()}');
                             }
-                            return SizedBox.shrink();
-                          }),
+                            return const SizedBox.shrink();
+                          },),
                     ),
-                    topTitles: AxisTitles(
-                        sideTitles: SideTitles(
-                      showTitles: false,
-                    ))),
+                    topTitles: const AxisTitles(
+                        ),),
                 borderData: FlBorderData(show: true),
-                barGroups: state.barChartData)),
+                barGroups: state.barChartData,),),
           };
-        }),
+        },),
       ),
     );
   }

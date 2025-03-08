@@ -30,27 +30,27 @@ class BrowserPage extends StatelessWidget {
       providers: [
         BlocProvider(
             create: (context) => DeckFetchCubit(
-                dataSource: serviceLocator<FlashcardsDataSource>())
-              ..fetchDeckEntries()),
+                dataSource: serviceLocator<FlashcardsDataSource>(),)
+              ..fetchDeckEntries(),),
         BlocProvider(
             create: (context) => FlashcardListCubit(
-                dataSource: serviceLocator<FlashcardsDataSource>())
-              ..fetchFlashcards('0')),
+                dataSource: serviceLocator<FlashcardsDataSource>(),)
+              ..fetchFlashcards('0'),),
         ChangeNotifierProvider(create: (context) => BrowseParametersNotifier()),
       ],
       child: Builder(builder: (context) {
         return BlocBuilder<DeckFetchCubit, DeckListState>(
             builder: (context, state) {
           return switch (state) {
-            DeckListInitialState() => Scaffold(body: LoadingScreen()),
-            DeckListLoadingState() => Scaffold(body: LoadingScreen()),
+            DeckListInitialState() => const Scaffold(body: LoadingScreen()),
+            DeckListLoadingState() => const Scaffold(body: LoadingScreen()),
             DeckListErrorState() => Scaffold(
-                appBar: AppBar(), drawer: AppDrawer(), body: ErrorScreen()),
+                appBar: AppBar(), drawer: AppDrawer(), body: const ErrorScreen(),),
             DeckListReadyState() => Scaffold(
                 appBar: AppBar(
                   title: ConstrainedBox(
-                      constraints: BoxConstraints(maxWidth: 200),
-                      child: _deckDropdownMenu(context, state.deckEntries)),
+                      constraints: const BoxConstraints(maxWidth: 200),
+                      child: _deckDropdownMenu(context, state.deckEntries),),
                 ),
                 drawer: AppDrawer(),
                 body: Padding(
@@ -63,13 +63,13 @@ class BrowserPage extends StatelessWidget {
                 ),
               ),
           };
-        });
-      }),
+        },);
+      },),
     );
   }
 
   Widget _deckDropdownMenu(BuildContext context, List<DeckEntry> deckEntries) {
-    final allDecks = DropdownMenuItem(value: '0', child: Text('All decks'));
+    const allDecks = DropdownMenuItem(value: '0', child: Text('All decks'));
 
     return DropdownButtonFormField<String>(
         value: context.watch<BrowseParametersNotifier>().selectedDeckId,
@@ -89,6 +89,6 @@ class BrowserPage extends StatelessWidget {
           if (value != null) {
             context.read<BrowseParametersNotifier>().changeDeckId(value);
           }
-        });
+        },);
   }
 }

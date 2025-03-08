@@ -1,5 +1,5 @@
-import 'package:uuid/uuid.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:uuid/uuid.dart';
 
 part 'flashcard.g.dart';
 
@@ -13,21 +13,21 @@ class Flashcard {
       required this.nextReviewDate,
       required this.interval,
       required this.repetitions,
-      required this.easeFactor});
+      required this.easeFactor,});
 
   Flashcard.create(
       {required String deckId,
       required String question,
-      required String answer})
+      required String answer,})
       : this(
-            cardId: Uuid().v8(),
+            cardId: const Uuid().v8(),
             deckId: deckId,
             question: question,
             answer: answer,
             nextReviewDate: null,
             interval: 0,
             repetitions: 0,
-            easeFactor: 2.5);
+            easeFactor: 2.5,);
 
   factory Flashcard.fromJson(Map<String, dynamic> json) =>
       _$FlashcardFromJson(json);
@@ -59,7 +59,7 @@ class Flashcard {
         nextReviewDate: nextReviewDate,
         interval: interval ?? this.interval,
         repetitions: repetitions ?? this.repetitions,
-        easeFactor: easeFactor ?? this.easeFactor);
+        easeFactor: easeFactor ?? this.easeFactor,);
   }
 
   Map<String, dynamic> toJson() => _$FlashcardToJson(this);

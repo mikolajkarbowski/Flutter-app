@@ -13,7 +13,7 @@ class DeckManagementCubit extends Cubit<DeckState> {
     try {
       await dataSource.addNewDeckEntry(deck);
       await delayAction(
-          action: () => emit(DeckState.deckAdded(deckEntry: deck)));
+          action: () => emit(DeckState.deckAdded(deckEntry: deck)),);
     } catch (err) {
       emit(DeckState.err(err: err, deckEntry: deck));
     }
@@ -21,12 +21,12 @@ class DeckManagementCubit extends Cubit<DeckState> {
 
   Future<void> removeDeck(DeckEntry deck) async {
     try {
-      dataSource.removeFlashcardsFromDeck(deck.deckId);
+      await dataSource.removeFlashcardsFromDeck(deck.deckId);
       dataSource.removeDeckEntry(deck.deckId);
       await delayAction(
-          action: () => emit(DeckState.deckRemoved(deckEntry: deck)));
-    } catch (e) {
-      emit(DeckState.err(err: e));
+          action: () => emit(DeckState.deckRemoved(deckEntry: deck)),);
+    } catch (err) {
+      emit(DeckState.err(err: err));
     }
   }
 }

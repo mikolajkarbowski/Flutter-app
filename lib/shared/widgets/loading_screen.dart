@@ -3,12 +3,12 @@ import 'package:memo_deck/core/theme/app_theme.dart';
 import 'package:memo_deck/shared/widgets/loading_indicator.dart';
 
 class LoadingScreen extends StatelessWidget {
-  final String message;
 
   const LoadingScreen({
     super.key,
     this.message = 'Loading...',
   });
+  final String message;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class LoadingScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          LoadingIndicator(),
+          const LoadingIndicator(),
           const SizedBox(height: 20),
           Text(
             message,

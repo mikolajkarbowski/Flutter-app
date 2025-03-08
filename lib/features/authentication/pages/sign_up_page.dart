@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:memo_deck/core/service_locator.dart';
 import 'package:memo_deck/core/theme/app_theme.dart';
+import 'package:memo_deck/features/authentication/bloc/auth_cubit.dart';
 import 'package:memo_deck/features/authentication/widgets/action_link_footer.dart';
 import 'package:memo_deck/features/authentication/widgets/auth_action_button.dart';
-import 'package:memo_deck/features/authentication/bloc/auth_cubit.dart';
-import 'package:memo_deck/core/service_locator.dart';
 import 'package:memo_deck/shared/utilities/snack_bar_utils.dart';
 
 import '../data/auth_service.dart';
@@ -50,7 +50,7 @@ class _SignUpPageState extends State<SignUpPage> {
             body: Center(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16),
                   child: Form(
                     key: _formKey,
                     child: Container(
@@ -58,7 +58,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       decoration: BoxDecoration(
                         color: AppTheme.cardColor,
                         borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: AppTheme.cardShadowColor,
                             blurRadius: 10,
@@ -66,11 +66,11 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ],
                       ),
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(16),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
+                          const Text(
                             'Sign up',
                             style: AppTheme.headlineLarge,
                           ),
@@ -93,7 +93,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               if (_formKey.currentState!.validate()) {
                                 final cubit = context.read<AuthCubit>();
                                 await cubit.signUp(_emailController.text,
-                                    _passwordController.text);
+                                    _passwordController.text,);
                               }
                             },
                             text: 'Create account',
@@ -102,7 +102,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             height: 5,
                           ),
                           ActionLinkFooter(
-                            promptText: "Already have an account? ",
+                            promptText: 'Already have an account? ',
                             actionText: 'Log in',
                             onTap: () {
                               context.pop();
@@ -117,7 +117,7 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
           ),
         );
-      }),
+      },),
     );
   }
 
@@ -130,15 +130,15 @@ class _SignUpPageState extends State<SignUpPage> {
       return 'Password must be at least 8 characters long';
     }
 
-    if (!value.contains(RegExp(r'[A-Z]'))) {
+    if (!value.contains(RegExp('[A-Z]'))) {
       return 'Password must include at least one uppercase letter';
     }
 
-    if (!value.contains(RegExp(r'[a-z]'))) {
+    if (!value.contains(RegExp('[a-z]'))) {
       return 'Password must include at least one lowercase letter';
     }
 
-    if (!value.contains(RegExp(r'[0-9]'))) {
+    if (!value.contains(RegExp('[0-9]'))) {
       return 'Password must include at least one number';
     }
 

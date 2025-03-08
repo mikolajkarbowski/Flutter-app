@@ -7,13 +7,13 @@ class EmailField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       child: TextFormField(
         controller: controller,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
             border: OutlineInputBorder(),
             labelText: 'Email',
-            hintText: 'Enter valid email as abc@gmail.com'),
+            hintText: 'Enter valid email as abc@gmail.com',),
         validator: _emailValidator,
       ),
     );

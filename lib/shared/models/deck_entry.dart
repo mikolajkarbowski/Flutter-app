@@ -7,7 +7,7 @@ part 'deck_entry.g.dart';
 class DeckEntry {
   DeckEntry({required this.deckId, required this.name});
   DeckEntry.create({required String name})
-      : this(deckId: Uuid().v8(), name: name);
+      : this(deckId: const Uuid().v8(), name: name);
 
   factory DeckEntry.fromJson(Map<String, dynamic> json) =>
       _$DeckEntryFromJson(json);

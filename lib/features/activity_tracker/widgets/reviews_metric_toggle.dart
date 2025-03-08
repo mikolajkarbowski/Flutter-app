@@ -11,7 +11,7 @@ class ReviewsMetricToggle extends StatelessWidget {
     final notifier = context.watch<ReviewsDataNotifier>();
     final cubit = context.read<ReviewsDataCubit>();
     return SegmentedButton<ReviewsMetric>(
-      segments: [
+      segments: const [
         ButtonSegment<ReviewsMetric>(
           value: ReviewsMetric.reviewsTime,
           label: Text('Time'),
@@ -25,7 +25,7 @@ class ReviewsMetricToggle extends StatelessWidget {
       onSelectionChanged: (selected) {
         final metric = selected.first;
         cubit.getStudyTimeChartData(
-            timeRange: notifier.timeRange, metric: metric);
+            timeRange: notifier.timeRange, metric: metric,);
         notifier.changeMetric(metric);
       },
     );

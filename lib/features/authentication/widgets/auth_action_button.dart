@@ -7,7 +7,7 @@ import '../bloc/auth_cubit.dart';
 class AuthActionButton extends StatelessWidget {
   const AuthActionButton({super.key, this.onPressed, this.text});
 
-  final Function()? onPressed;
+  final void Function()? onPressed;
   final String? text;
   @override
   Widget build(BuildContext context) {
@@ -20,13 +20,13 @@ class AuthActionButton extends StatelessWidget {
             onPressed: onPressed,
             style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4))),
+                    borderRadius: BorderRadius.circular(4),),),
             child: BlocBuilder<AuthCubit, AuthState>(builder: (context, state) {
               if (state is SigningInState) {
-                return LoadingIndicator();
+                return const LoadingIndicator();
               }
-              return text != null ? Text(text!) : Text('');
-            })),
+              return text != null ? Text(text!) : const Text('');
+            },),),
       ),
     );
   }

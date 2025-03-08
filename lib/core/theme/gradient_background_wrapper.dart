@@ -7,7 +7,7 @@ class GradientBackgroundWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xFF4637B3), Color(0xffde62c7)],
           begin: Alignment.topLeft,

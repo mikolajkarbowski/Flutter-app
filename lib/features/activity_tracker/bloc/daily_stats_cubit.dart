@@ -13,7 +13,7 @@ class DailyStatsCubit extends Cubit<DailyStatsState> {
       final sessions = await dataSource.loadTodaySessions();
       double totalTimeSec = 0;
       int cardsAnswered = 0;
-      for (var session in sessions) {
+      for (final session in sessions) {
         totalTimeSec += session.totalDuration.inSeconds;
         cardsAnswered += session.cardsReviewed;
       }
@@ -22,9 +22,9 @@ class DailyStatsCubit extends Cubit<DailyStatsState> {
         return;
       }
       emit(DailyStatsState.ready(
-          totalTimeSec: totalTimeSec, cardsAnswered: cardsAnswered));
-    } catch (e) {
-      emit(DailyStatsState.err(err: e));
+          totalTimeSec: totalTimeSec, cardsAnswered: cardsAnswered,),);
+    } catch (err) {
+      emit(DailyStatsState.err(err: err));
     }
   }
 }
@@ -37,7 +37,7 @@ sealed class DailyStatsState with EquatableMixin {
   factory DailyStatsState.err({dynamic err}) = DailyStatsErrorState;
   factory DailyStatsState.ready(
       {required double totalTimeSec,
-      required int cardsAnswered}) = DailyStatsReadyState;
+      required int cardsAnswered,}) = DailyStatsReadyState;
   factory DailyStatsState.empty() = DailyStatsEmptyState;
 }
 
@@ -65,7 +65,7 @@ class DailyStatsErrorState extends DailyStatsState {
 
 class DailyStatsReadyState extends DailyStatsState {
   DailyStatsReadyState(
-      {required this.totalTimeSec, required this.cardsAnswered});
+      {required this.totalTimeSec, required this.cardsAnswered,});
   final double totalTimeSec;
   final int cardsAnswered;
 

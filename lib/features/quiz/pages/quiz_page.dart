@@ -24,19 +24,19 @@ class QuizPage extends StatelessWidget {
       create: (context) => QuizManagerCubit(
           quizManager: QuizManager(
               dataSource: serviceLocator<FlashcardsDataSource>(),
-              deckId: deckId))
+              deckId: deckId,),)
         ..startQuiz(),
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: AppBar(
-            title: Text('Quiz'),
+            title: const Text('Quiz'),
             actions: [
               _undo(context),
               _popupMenu(context),
             ],
           ),
           body: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8),
             child: BlocBuilder<QuizManagerCubit, QuizState>(
               builder: (context, state) {
                 final cubit = context.read<QuizManagerCubit>();
@@ -44,34 +44,34 @@ class QuizPage extends StatelessWidget {
                   serviceLocator<StudySessionManager>().endSession();
                 }
                 return switch (state) {
-                  QuizInitialState() => LoadingScreen(),
-                  QuizLoadingState() => LoadingScreen(),
-                  QuizEndState() => QuizEndScreen(),
+                  QuizInitialState() => const LoadingScreen(),
+                  QuizLoadingState() => const LoadingScreen(),
+                  QuizEndState() => const QuizEndScreen(),
                   QuizErrorState() => QuizErrorScreen(
                       errorMessage: 'Failed to load flashcards.\n'
                           '${state.err}'
-                          ' Please try again later.'),
+                          ' Please try again later.',),
                   QuizNextCardState() => Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         LinearProgressIndicator(
                           value: state.quizProgress,
                           minHeight: 10,
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                          borderRadius: const BorderRadius.all(Radius.circular(5)),
                         ),
                         Expanded(
                           child: Center(
                             child: ConstrainedBox(
-                                constraints: BoxConstraints(
+                                constraints: const BoxConstraints(
                                   maxWidth: 600,
                                   maxHeight: 600,
                                 ),
                                 child: AnimatedFlipCard(
-                                    flashcard: state.flashcard)),
+                                    flashcard: state.flashcard,),),
                           ),
                         ),
                         ConstrainedBox(
-                          constraints: BoxConstraints(
+                          constraints: const BoxConstraints(
                             maxWidth: 600,
                           ),
                           child: Row(
@@ -79,8 +79,8 @@ class QuizPage extends StatelessWidget {
                               _quizButton(context, 'Again', Colors.red, () {
                                 serviceLocator<StudySessionManager>()
                                     .reviewCard();
-                                cubit.submitResponse(state.flashcard, 0);
-                                cubit.getNextCard();
+                                cubit..submitResponse(state.flashcard, 0)
+                                ..getNextCard();
                               }),
                               const SizedBox(
                                 width: 4,
@@ -88,8 +88,8 @@ class QuizPage extends StatelessWidget {
                               _quizButton(context, 'Hard', Colors.yellow, () {
                                 serviceLocator<StudySessionManager>()
                                     .reviewCard();
-                                cubit.submitResponse(state.flashcard, 2);
-                                cubit.getNextCard();
+                                cubit..submitResponse(state.flashcard, 2)
+                                ..getNextCard();
                               }),
                               const SizedBox(
                                 width: 4,
@@ -97,8 +97,8 @@ class QuizPage extends StatelessWidget {
                               _quizButton(context, 'Good', Colors.green, () {
                                 serviceLocator<StudySessionManager>()
                                     .reviewCard();
-                                cubit.submitResponse(state.flashcard, 3.5);
-                                cubit.getNextCard();
+                                cubit..submitResponse(state.flashcard, 3.5)
+                                ..getNextCard();
                               }),
                               const SizedBox(
                                 width: 4,
@@ -106,9 +106,9 @@ class QuizPage extends StatelessWidget {
                               _quizButton(context, 'Easy', Colors.blue, () {
                                 serviceLocator<StudySessionManager>()
                                     .reviewCard();
-                                cubit.submitResponse(state.flashcard, 5);
-                                cubit.getNextCard();
-                              })
+                                cubit..submitResponse(state.flashcard, 5)
+                                ..getNextCard();
+                              }),
                             ],
                           ),
                         ),
@@ -119,19 +119,19 @@ class QuizPage extends StatelessWidget {
             ),
           ),
         );
-      }),
+      },),
     );
   }
 
   Widget _quizButton(BuildContext context, String text, Color color,
-      void Function()? onPressed) {
+      void Function()? onPressed,) {
     return Expanded(
       child: TextButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(backgroundColor: color),
         child: Text(
           text,
-          style: TextStyle(color: AppTheme.bodyTextColor),
+          style: const TextStyle(color: AppTheme.bodyTextColor),
         ),
       ),
     );
@@ -140,16 +140,16 @@ class QuizPage extends StatelessWidget {
   Widget _undo(BuildContext context) {
     return IconButton(
         onPressed: () {
-          final cubit = context.read<QuizManagerCubit>();
-          cubit.getPreviousCard();
+          context.read<QuizManagerCubit>()
+          .getPreviousCard();
         },
-        icon: Icon(Icons.undo, color: AppTheme.subTextColor));
+        icon: const Icon(Icons.undo, color: AppTheme.subTextColor),);
   }
 
   Widget _popupMenu(BuildContext context) {
     final cubit = context.watch<QuizManagerCubit>();
     return PopupMenuButton<String>(
-        icon: Icon(
+        icon: const Icon(
           Icons.more_vert,
           color: AppTheme.subTextColor,
         ),
@@ -162,7 +162,7 @@ class QuizPage extends StatelessWidget {
                   serviceLocator<StudySessionManager>().suspendSession();
                   final res = await context.pushNamed('ManageFlashcardPage',
                       pathParameters: {'deckId': state.flashcard.deckId},
-                      extra: state.flashcard);
+                      extra: state.flashcard,);
                   if (res != null) {
                     final resCasted = res as List<Flashcard>;
                     cubit.flashcardUpdated(resCasted.first, resCasted.last);
@@ -172,7 +172,7 @@ class QuizPage extends StatelessWidget {
               }
           }
         },
-        itemBuilder: (BuildContext context) => cubit.state is QuizNextCardState
+        itemBuilder: (context) => cubit.state is QuizNextCardState
             ? [
                 const PopupMenuItem(
                     value: 'Edit',
@@ -184,8 +184,8 @@ class QuizPage extends StatelessWidget {
                         ),
                         Text('Edit'),
                       ],
-                    )),
+                    ),),
               ]
-            : []);
+            : [],);
   }
 }

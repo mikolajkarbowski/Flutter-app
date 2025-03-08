@@ -21,12 +21,12 @@ class AppDrawer extends StatelessWidget {
       ),
       onDestinationSelected: (index) {
         context.read<NavigationState>().updateIndex(index);
-        context.pop();
-        context.goNamed(_routes[index]);
+        context..pop()
+        ..goNamed(_routes[index]);
       },
       children: [
         UserAccountsDrawerHeader(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: AppTheme.accentColor,
             gradient: LinearGradient(
               colors: [
@@ -38,25 +38,25 @@ class AppDrawer extends StatelessWidget {
             ),
           ),
           accountEmail: Text(serviceLocator<AuthService>().userEmail),
-          accountName: Text('MemoDeck'),
+          accountName: const Text('MemoDeck'),
           currentAccountPicture:
               Lottie.asset('assets/animations/avatar_animation.json'),
         ),
-        NavigationDrawerDestination(
+        const NavigationDrawerDestination(
             icon: Icon(Icons.list),
             selectedIcon: Icon(
               Icons.list,
               color: AppTheme.accentColor,
             ),
-            label: Text('Decks')),
-        NavigationDrawerDestination(
+            label: Text('Decks'),),
+        const NavigationDrawerDestination(
             icon: Icon(Icons.copy),
             selectedIcon: Icon(
               Icons.copy,
               color: AppTheme.accentColor,
             ),
-            label: Text('Card browser')),
-        NavigationDrawerDestination(
+            label: Text('Card browser'),),
+        const NavigationDrawerDestination(
           icon: Icon(Icons.bar_chart),
           selectedIcon: Icon(
             Icons.bar_chart,
@@ -64,8 +64,8 @@ class AppDrawer extends StatelessWidget {
           ),
           label: Text('Statistics'),
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
+        const Padding(
+          padding: EdgeInsets.all(8),
           child: Divider(),
         ),
         Padding(
@@ -74,8 +74,8 @@ class AppDrawer extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
-            leading: Icon(Icons.logout),
-            title: Text('Logout'),
+            leading: const Icon(Icons.logout),
+            title: const Text('Logout'),
             onTap: () {
               serviceLocator<AuthService>().signOut();
               context.goNamed('SplashPage');

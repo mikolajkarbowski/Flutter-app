@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -21,14 +23,14 @@ class FlashcardsDataSource {
 
   Stream<List<DeckEntry>> get deckEntriesStream =>
       _decks.snapshots().map((snapshot) =>
-          snapshot.docs.map((doc) => DeckEntry.fromJson(doc.data())).toList());
+          snapshot.docs.map((doc) => DeckEntry.fromJson(doc.data())).toList(),);
 
   List<Flashcard> _parseFlashcards(List<Map<String, dynamic>> rawData) {
-    return rawData.map((data) => Flashcard.fromJson(data)).toList();
+    return rawData.map(Flashcard.fromJson).toList();
   }
 
   List<DeckEntry> _parseDeckEntries(List<Map<String, dynamic>> rawData) {
-    return rawData.map((data) => DeckEntry.fromJson(data)).toList();
+    return rawData.map(DeckEntry.fromJson).toList();
   }
 
   Future<void> addNewDeckEntry(DeckEntry deck) async {
@@ -36,35 +38,35 @@ class FlashcardsDataSource {
       final res =
           await _decks.where('name', isEqualTo: deck.name).limit(1).get();
       if (res.docs.isNotEmpty) {
-        throw 'Deck "${deck.name}" already exists!';
+        throw Exception('Deck "${deck.name}" already exists!');
       }
-      _decks.doc(deck.deckId).set(deck.toJson());
-    } catch (e) {
-      throw 'Failed to add new deck entry: $e';
+      unawaited(_decks.doc(deck.deckId).set(deck.toJson()));
+    } catch (err) {
+      throw Exception('Failed to add new deck entry: $err');
     }
   }
 
   Future<List<DeckEntry>> getAllDeckEntries() async {
     try {
-      QuerySnapshot<Map<String, dynamic>> res = await _decks.get();
-      List<Map<String, dynamic>> rawData =
+      final QuerySnapshot<Map<String, dynamic>> res = await _decks.get();
+      final List<Map<String, dynamic>> rawData =
           res.docs.map((doc) => doc.data()).toList();
       return await compute(_parseDeckEntries, rawData);
-    } catch (e) {
-      throw 'Failed to load deck entries: $e';
+    } catch (err) {
+      throw Exception('Failed to load deck entries: $err');
     }
   }
 
   Future<List<Flashcard>> _getFlashcardsWhere(Filter filter) async {
     {
       try {
-        QuerySnapshot<Map<String, dynamic>> res =
+        final QuerySnapshot<Map<String, dynamic>> res =
             await _flashcards.where(filter).get();
-        List<Map<String, dynamic>> rawData =
+        final List<Map<String, dynamic>> rawData =
             res.docs.map((doc) => doc.data()).toList();
         return await compute(_parseFlashcards, rawData);
-      } catch (e) {
-        throw 'Failed to load flashcards: $e';
+      } catch (err) {
+        throw Exception('Failed to load flashcards: $err');
       }
     }
   }
@@ -81,12 +83,12 @@ class FlashcardsDataSource {
     final filter = Filter.and(
         Filter('deckId', isEqualTo: deckId),
         Filter.or(Filter('nextReviewDate', isNull: true),
-            Filter('nextReviewDate', isLessThanOrEqualTo: nextMidnight)));
+            Filter('nextReviewDate', isLessThanOrEqualTo: nextMidnight),),);
     return _getFlashcardsWhere(filter);
   }
 
   Future<FlashcardsBatch> getFlashcardsBatch(
-      int batchSize, DocumentSnapshot? lastDocument, Filter? filter) async {
+      int batchSize, DocumentSnapshot? lastDocument, Filter? filter,) async {
     Query<Map<String, dynamic>> query =
         _flashcards.orderBy('cardId', descending: true);
     if (filter != null) {
@@ -103,9 +105,9 @@ class FlashcardsDataSource {
       final flashcards = await compute(_parseFlashcards, rawData);
 
       return FlashcardsBatch(
-          flashcards: flashcards, lastDocument: lastDocument);
-    } catch (e) {
-      throw 'Failed to get flashcards: $e';
+          flashcards: flashcards, lastDocument: lastDocument,);
+    } catch (err) {
+      throw Exception('Failed to get flashcards: $err');
     }
   }
 
@@ -119,22 +121,22 @@ class FlashcardsDataSource {
 
   Future<void> _removeFlashcardsWhere(Filter filter) async {
     try {
-      QuerySnapshot querySnapshot = await _flashcards.where(filter).get();
-      for (var doc in querySnapshot.docs) {
-        doc.reference.delete();
+      final querySnapshot = await _flashcards.where(filter).get();
+      for (final doc in querySnapshot.docs) {
+        unawaited(doc.reference.delete());
       }
-    } catch (e) {
-      throw 'Failed to remove flashcards: $e';
+    } catch (err) {
+      throw Exception('Failed to remove flashcards: $err');
     }
   }
 
   Future<void> removeFlashcardsFromDeck(String deckId) async {
-    Filter filter = Filter('deckId', isEqualTo: deckId);
+    final filter = Filter('deckId', isEqualTo: deckId);
     return _removeFlashcardsWhere(filter);
   }
 
   Future<void> removeFlashcard(Flashcard flashcard) async {
-    Filter filter = Filter('cardId', isEqualTo: flashcard.cardId);
+    final filter = Filter('cardId', isEqualTo: flashcard.cardId);
     return _removeFlashcardsWhere(filter);
   }
 

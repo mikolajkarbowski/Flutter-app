@@ -16,9 +16,9 @@ class FlashcardTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return IntrinsicHeight(
       child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 10),
+        margin: const EdgeInsets.symmetric(horizontal: 10),
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(8),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,14 +27,14 @@ class FlashcardTile extends StatelessWidget {
                   child: Text(
                 flashcard.question,
                 style: AppTheme.bodyLarge,
-              )),
-              VerticalDivider(),
+              ),),
+              const VerticalDivider(),
               Expanded(
                   child: Text(
                 flashcard.answer,
                 style: AppTheme.bodyLarge,
-              )),
-              VerticalDivider(),
+              ),),
+              const VerticalDivider(),
               _flashcardMenu(context),
             ],
           ),
@@ -57,7 +57,7 @@ class FlashcardTile extends StatelessWidget {
             {
               final res = await context.pushNamed('ManageFlashcardPage',
                   pathParameters: {'deckId': flashcard.deckId},
-                  extra: flashcard);
+                  extra: flashcard,);
               if (res != null) {
                 final resCasted = res as List<Flashcard>;
                 final updatedFlashcard = resCasted.last;
@@ -77,7 +77,7 @@ class FlashcardTile extends StatelessWidget {
                 ),
                 Text('Edit card'),
               ],
-            )),
+            ),),
         const PopupMenuItem(
             value: 'remove_card',
             child: Row(
@@ -91,7 +91,7 @@ class FlashcardTile extends StatelessWidget {
                 ),
                 Text('Remove card'),
               ],
-            )),
+            ),),
       ],
     );
   }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:memo_deck/core/service_locator.dart';
 import 'package:memo_deck/core/theme/app_theme.dart';
 import 'package:memo_deck/core/theme/gradient_background_wrapper.dart';
+import 'package:memo_deck/features/authentication/bloc/auth_cubit.dart';
 import 'package:memo_deck/features/authentication/widgets/action_link_footer.dart';
 import 'package:memo_deck/features/authentication/widgets/auth_action_button.dart';
-import 'package:memo_deck/features/authentication/bloc/auth_cubit.dart';
-import 'package:memo_deck/core/service_locator.dart';
 import 'package:memo_deck/features/authentication/widgets/password_field.dart';
 import 'package:memo_deck/shared/utilities/snack_bar_utils.dart';
 
@@ -49,12 +49,12 @@ class _SignInPageState extends State<SignInPage> {
           child: Scaffold(
             appBar: AppBar(
               title: const Text('MemoDeck'),
-              flexibleSpace: GradientBackgroundWrapper(),
+              flexibleSpace: const GradientBackgroundWrapper(),
             ),
             body: Center(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16),
                   child: Form(
                     key: _formKey,
                     child: Container(
@@ -62,7 +62,7 @@ class _SignInPageState extends State<SignInPage> {
                       decoration: BoxDecoration(
                         color: AppTheme.cardColor,
                         borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: AppTheme.cardShadowColor,
                             blurRadius: 10,
@@ -70,11 +70,11 @@ class _SignInPageState extends State<SignInPage> {
                           ),
                         ],
                       ),
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(16),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
+                          const Text(
                             'Sign in',
                             style: AppTheme.headlineLarge,
                           ),
@@ -89,7 +89,7 @@ class _SignInPageState extends State<SignInPage> {
                           ),
                           PasswordField(
                               controller: _passwordController,
-                              validator: _passwordValidator),
+                              validator: _passwordValidator,),
                           const SizedBox(
                             height: 10,
                           ),
@@ -99,7 +99,7 @@ class _SignInPageState extends State<SignInPage> {
                                 final cubit = context.read<AuthCubit>();
                                 await cubit.signInWithEmail(
                                     _emailController.text,
-                                    _passwordController.text);
+                                    _passwordController.text,);
                               }
                             },
                             text: 'Log in',
@@ -123,7 +123,7 @@ class _SignInPageState extends State<SignInPage> {
             ),
           ),
         );
-      }),
+      },),
     );
   }
 

@@ -38,21 +38,21 @@ class SplashPage extends StatelessWidget {
                           height: 200,
                           child: Card(
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40)),
+                                  borderRadius: BorderRadius.circular(40),),
                               child: Image.asset(
-                                  'assets/icon/memo_deck_icon.png')),
+                                  'assets/icon/memo_deck_icon.png',),),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20,
                         ),
-                        LinearProgressIndicator(),
+                        const LinearProgressIndicator(),
                       ],
                     ),
                   ),
                 ),
-              )),
+              ),),
         );
-      }),
+      },),
     );
   }
 }

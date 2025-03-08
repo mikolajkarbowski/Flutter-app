@@ -6,8 +6,8 @@ class SplashCubit extends Cubit<SplashState> {
   SplashCubit({required this.authService}) : super(SplashState.displaySplash());
 
   final AuthService authService;
-  void appStarted() async {
-    await Future.delayed(const Duration(seconds: 2));
+  Future<void> appStarted() async {
+    await Future<void>.delayed(const Duration(seconds: 2));
     if (authService.isSignedIn) {
       emit(SplashState.authenticated());
     } else {

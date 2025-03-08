@@ -40,14 +40,14 @@ class FlashcardListCubit extends Cubit<FlashcardListState> {
     try {
       dataSource.removeFlashcard(flashcard);
       emit(FlashcardListState.itemRemoved(removed: flashcard));
-    } catch (e) {
-      emit(FlashcardListState.err(err: e));
+    } catch (err) {
+      emit(FlashcardListState.err(err: err));
     }
   }
 
   void flashcardUpdated(Flashcard oldFlashcard, Flashcard updatedFlashcard) {
     emit(FlashcardListState.itemUpdated(
-        oldFlashcard: oldFlashcard, updatedFlashcard: updatedFlashcard));
+        oldFlashcard: oldFlashcard, updatedFlashcard: updatedFlashcard,),);
   }
 
   void reset() {
@@ -68,7 +68,7 @@ sealed class FlashcardListState with EquatableMixin {
       FlashcardListItemRemovedState;
   factory FlashcardListState.itemUpdated(
       {required Flashcard oldFlashcard,
-      required Flashcard updatedFlashcard}) = FlashcardListItemUpdatedState;
+      required Flashcard updatedFlashcard,}) = FlashcardListItemUpdatedState;
 }
 
 class FlashcardListInitialState extends FlashcardListState {
@@ -115,7 +115,7 @@ class FlashcardListItemRemovedState extends FlashcardListState {
 
 class FlashcardListItemUpdatedState extends FlashcardListState {
   FlashcardListItemUpdatedState(
-      {required this.oldFlashcard, required this.updatedFlashcard});
+      {required this.oldFlashcard, required this.updatedFlashcard,});
   final Flashcard oldFlashcard;
   final Flashcard updatedFlashcard;
 

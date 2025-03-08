@@ -28,7 +28,7 @@ class StudySessionManager {
       return;
     }
     session!.endSession();
-    if (session!.totalDuration > Duration(seconds: 10)) {
+    if (session!.totalDuration > const Duration(seconds: 10)) {
       dataSource.saveSession(session!);
     }
     session = null;

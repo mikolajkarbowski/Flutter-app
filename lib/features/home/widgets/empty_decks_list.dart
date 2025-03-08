@@ -9,7 +9,7 @@ class EmptyDecksList extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
+          const Icon(
             Icons.inbox,
             size: 64,
             color: Colors.grey,

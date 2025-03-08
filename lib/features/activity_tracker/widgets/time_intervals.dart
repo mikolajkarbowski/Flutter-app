@@ -9,7 +9,7 @@ class TimeInterval extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ReviewsTimeRange? timeInterval =
+    final ReviewsTimeRange timeInterval =
         context.watch<ReviewsDataNotifier>().timeRange;
     void onTimeRangeChanged(ReviewsTimeRange? value) {
       if (value != null) {
@@ -29,9 +29,9 @@ class TimeInterval extends StatelessWidget {
             groupValue: timeInterval,
             onChanged: onTimeRangeChanged,
           ),
-          Text('1 month'),
-        ]),
-        SizedBox(
+          const Text('1 month'),
+        ],),
+        const SizedBox(
           width: 10,
         ),
         Row(children: [
@@ -40,9 +40,9 @@ class TimeInterval extends StatelessWidget {
             groupValue: timeInterval,
             onChanged: onTimeRangeChanged,
           ),
-          Text('3 months'),
-        ]),
-        SizedBox(
+          const Text('3 months'),
+        ],),
+        const SizedBox(
           width: 10,
         ),
         Row(children: [
@@ -51,8 +51,8 @@ class TimeInterval extends StatelessWidget {
             groupValue: timeInterval,
             onChanged: onTimeRangeChanged,
           ),
-          Text('1 year'),
-        ]),
+          const Text('1 year'),
+        ],),
       ],
     );
   }

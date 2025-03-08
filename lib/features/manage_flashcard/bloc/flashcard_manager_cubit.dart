@@ -14,16 +14,16 @@ class FlashcardManagerCubit extends Cubit<FlashcardState> {
     emit(FlashcardState.processing());
     dataSource.addNewFlashcard(flashcard);
     await delayAction(
-        action: () => emit(FlashcardState.added(flashcard: flashcard)));
+        action: () => emit(FlashcardState.added(flashcard: flashcard)),);
   }
 
   Future<void> updateFlashcard(
-      Flashcard oldFlashcard, Flashcard newFlashcard) async {
+      Flashcard oldFlashcard, Flashcard newFlashcard,) async {
     emit(FlashcardState.processing());
     dataSource.updateFlashcard(newFlashcard);
     await delayAction(
         action: () => emit(FlashcardState.updated(
-            oldFlashcard: oldFlashcard, newFlashcard: newFlashcard)));
+            oldFlashcard: oldFlashcard, newFlashcard: newFlashcard,),),);
   }
 }
 
@@ -35,7 +35,7 @@ sealed class FlashcardState with EquatableMixin {
       FlashcardAddedState;
   factory FlashcardState.updated(
       {required Flashcard oldFlashcard,
-      required Flashcard newFlashcard}) = FlashcardUpdatedState;
+      required Flashcard newFlashcard,}) = FlashcardUpdatedState;
 }
 
 class FlashcardInitialState extends FlashcardState {
@@ -58,7 +58,7 @@ class FlashcardAddedState extends FlashcardState {
 
 class FlashcardUpdatedState extends FlashcardState {
   FlashcardUpdatedState(
-      {required this.oldFlashcard, required this.newFlashcard});
+      {required this.oldFlashcard, required this.newFlashcard,});
   final Flashcard oldFlashcard;
   final Flashcard newFlashcard;
 

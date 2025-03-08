@@ -29,8 +29,8 @@ class QuizManager {
     answerCount += 1;
 
     flashcards.remove(flashcard);
-    answeredFlashcards.removeWhere((card) => card.cardId == flashcard.cardId);
-    answeredFlashcards.add(flashcard);
+    answeredFlashcards..removeWhere((card) => card.cardId == flashcard.cardId)
+    ..add(flashcard);
 
     final updatedFlashcard = SuperMemo.sm2Algorithm(flashcard, grade);
     dataSource.updateFlashcard(updatedFlashcard);

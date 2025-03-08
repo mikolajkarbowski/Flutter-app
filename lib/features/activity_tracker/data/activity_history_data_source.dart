@@ -5,7 +5,7 @@ import 'package:memo_deck/shared/models/study_session.dart';
 
 class ActivityHistoryDataSource {
   ActivityHistoryDataSource(
-      {required this.authService, required this.firestore});
+      {required this.authService, required this.firestore,});
   final FirebaseAuth authService;
   final FirebaseFirestore firestore;
   CollectionReference<Map<String, dynamic>> get _history => firestore
@@ -14,7 +14,7 @@ class ActivityHistoryDataSource {
       .collection('history');
 
   List<StudySession> _parseStudySessions(List<Map<String, dynamic>> rawData) {
-    return rawData.map((doc) => StudySession.fromJson(doc)).toList();
+    return rawData.map(StudySession.fromJson).toList();
   }
 
   void saveSession(StudySession session) {
@@ -23,13 +23,13 @@ class ActivityHistoryDataSource {
 
   Future<List<StudySession>> _getStudySessionsWhere(Filter filter) async {
     try {
-      QuerySnapshot<Map<String, dynamic>> res =
+      final QuerySnapshot<Map<String, dynamic>> res =
           await _history.where(filter).get();
-      List<Map<String, dynamic>> rawData =
+      final List<Map<String, dynamic>> rawData =
           res.docs.map((doc) => doc.data()).toList();
       return await compute(_parseStudySessions, rawData);
-    } catch (e) {
-      throw 'Failed to load study sessions: $e';
+    } catch (err) {
+      throw Exception('Failed to load study sessions: $err');
     }
   }
 
@@ -38,8 +38,8 @@ class ActivityHistoryDataSource {
     final startDate =
         DateTime(now.year - 1, now.month, now.day).toIso8601String();
     final Filter filter = Filter.and(Filter('startTime', isNull: false),
-        Filter('startTime', isGreaterThan: startDate));
-    return await _getStudySessionsWhere(filter);
+        Filter('startTime', isGreaterThan: startDate,),);
+    return _getStudySessionsWhere(filter);
   }
 
   Future<List<StudySession>> loadTodaySessions() async {
@@ -58,9 +58,9 @@ class ActivityHistoryDataSource {
     final nullFilter = Filter('startTime', isNull: false);
     final timeIntervalFilter = Filter.and(
         Filter('startTime', isGreaterThan: lastMidnight),
-        Filter('startTime', isLessThan: nextMidnight));
+        Filter('startTime', isLessThan: nextMidnight,),);
 
     final filter = Filter.and(nullFilter, timeIntervalFilter);
-    return await _getStudySessionsWhere(filter);
+    return _getStudySessionsWhere(filter);
   }
 }

@@ -18,20 +18,20 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => DeckManagementCubit(
-          dataSource: serviceLocator<FlashcardsDataSource>()),
+          dataSource: serviceLocator<FlashcardsDataSource>(),),
       child: Builder(builder: (context) {
         final cubit = context.read<DeckManagementCubit>();
 
         return BlocListener<DeckManagementCubit, DeckState>(
           listener: (context, state) {
             if (state is DeckErrorState) {
-              SnackBarUtils.showErrorSnackBar(context, state.err);
+              SnackBarUtils.showErrorSnackBar(context, state.err as String);
             } else if (state is DeckAddedState) {
               SnackBarUtils.showSuccessSnackBar(
-                  context, 'Deck "${state.deckEntry.name}" successfully added');
+                  context, 'Deck "${state.deckEntry.name}" successfully added',);
             } else if (state is DeckRemovedState) {
               SnackBarUtils.showSuccessSnackBar(
-                  context, 'Deck "${state.deckEntry.name}" removed');
+                  context, 'Deck "${state.deckEntry.name}" removed',);
             }
           },
           child: Scaffold(
@@ -42,12 +42,12 @@ class HomePage extends StatelessWidget {
             floatingActionButton: FloatingActionButton(
               onPressed: () async {
                 final newDeckName = await showDialog<String>(
-                    context: context, builder: (context) => AddDeckDialog());
+                    context: context, builder: (context) => const AddDeckDialog(),);
                 if (newDeckName != null) {
-                  cubit.addNewDeckEntry(DeckEntry.create(name: newDeckName));
+                  await cubit.addNewDeckEntry(DeckEntry.create(name: newDeckName));
                 }
               },
-              child: Icon(Icons.add),
+              child: const Icon(Icons.add),
             ),
             body: StreamBuilder<List<DeckEntry>>(
                 stream:
@@ -57,20 +57,20 @@ class HomePage extends StatelessWidget {
                     return Scaffold(
                       appBar: AppBar(),
                       drawer: AppDrawer(),
-                      body: ErrorScreen(),
+                      body: const ErrorScreen(),
                     );
                   } else if (snapshot.hasData) {
                     return DeckList(
                       decks: snapshot.data!,
                     );
                   }
-                  return LoadingScreen(
-                    message: "Loading Decks...",
+                  return const LoadingScreen(
+                    message: 'Loading Decks...',
                   );
-                }),
+                },),
           ),
         );
-      }),
+      },),
     );
   }
 }
@@ -99,7 +99,7 @@ class _AddDeckDialogState extends State<AddDeckDialog> {
         child: TextFormField(
           controller: _deckNameController,
           autofocus: true,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             labelText: 'Deck name',
             border: OutlineInputBorder(),
           ),
@@ -118,7 +118,7 @@ class _AddDeckDialogState extends State<AddDeckDialog> {
                 context.pop(_deckNameController.text);
               }
             },
-            child: const Text('Add')),
+            child: const Text('Add'),),
       ],
     );
   }

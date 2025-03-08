@@ -8,7 +8,7 @@ class ActionLinkFooter extends StatelessWidget {
       {super.key,
       required this.actionText,
       required this.promptText,
-      required this.onTap});
+      required this.onTap,});
 
   final String promptText;
   final String actionText;
@@ -25,11 +25,11 @@ class ActionLinkFooter extends StatelessWidget {
           children: [
             TextSpan(
                 text: actionText,
-                style: TextStyle(
+                style: const TextStyle(
                   color: AppTheme.accentColor,
                   fontWeight: FontWeight.bold,
                 ),
-                recognizer: TapGestureRecognizer()..onTap = onTap),
+                recognizer: TapGestureRecognizer()..onTap = onTap,),
           ],
         ),
       ),

@@ -21,35 +21,35 @@ class ReviewsDataCubit extends Cubit<ReviewsDataState> {
     try {
       emit(ReviewsDataState.loading());
       sessions = await dataSource.loadStudySessionsWithinLastYear();
-    } catch (e) {
-      emit(ReviewsDataState.err(err: e));
+    } catch (err) {
+      emit(ReviewsDataState.err(err: err));
     }
     getStudyTimeChartData();
   }
 
   void getStudyTimeChartData(
       {ReviewsTimeRange timeRange = ReviewsTimeRange.month,
-      ReviewsMetric metric = ReviewsMetric.reviewsTime}) {
+      ReviewsMetric metric = ReviewsMetric.reviewsTime,}) {
     if (sessions == null) {
       emit(ReviewsDataState.err(err: 'Data not loaded'));
       return;
     }
-    int daysInTimeRange = switch (timeRange) {
+    final int daysInTimeRange = switch (timeRange) {
       ReviewsTimeRange.year => 365,
       ReviewsTimeRange.quarter => 90,
       ReviewsTimeRange.month => 30,
     };
-    List<int> studyTime = List<int>.filled(rodsCount, 0);
-    List<int> cardsAnswered = List<int>.filled(rodsCount, 0);
-    int intervalSize = (daysInTimeRange / rodsCount).round();
+    final studyTime = List<int>.filled(rodsCount, 0);
+    final cardsAnswered = List<int>.filled(rodsCount, 0);
+    final int intervalSize = (daysInTimeRange / rodsCount).round();
 
     final daysStudied = HashSet<int>();
     final now = DateTime.now();
-    for (var session in sessions!) {
-      Duration diff = session.startTime!.difference(now);
-      int days = diff.inDays.abs();
+    for (final session in sessions!) {
+      final Duration diff = session.startTime!.difference(now);
+      final int days = diff.inDays.abs();
       if (0 <= days && days <= daysInTimeRange) {
-        int interval = (days / intervalSize).floor();
+        final int interval = (days / intervalSize).floor();
         studyTime[interval] += session.totalDuration.inSeconds;
         cardsAnswered[interval] += session.cardsReviewed;
 
@@ -66,9 +66,9 @@ class ReviewsDataCubit extends Cubit<ReviewsDataState> {
       totalTime += studyTime[i];
       totalAnswers += cardsAnswered[i];
 
-      double timeInMin = studyTime[i] / 60;
-      String timeString = timeInMin.toStringAsFixed(2);
-      double timeRounded = double.parse(timeString);
+      final double timeInMin = studyTime[i] / 60;
+      final String timeString = timeInMin.toStringAsFixed(2);
+      final double timeRounded = double.parse(timeString);
 
       data.add(BarChartGroupData(x: -i * intervalSize, barRods: [
         BarChartRodData(
@@ -76,10 +76,10 @@ class ReviewsDataCubit extends Cubit<ReviewsDataState> {
               ? timeRounded
               : cardsAnswered[i].toDouble(),
           color: metric == ReviewsMetric.reviewsTime
-              ? Color(0xffdb3d86)
-              : Color(0xff6f3ddb),
+              ? const Color(0xffdb3d86)
+              : const Color(0xff6f3ddb),
         ),
-      ]));
+      ],),);
     }
     totalTime /= 60;
     data = data.reversed.toList();
@@ -88,7 +88,7 @@ class ReviewsDataCubit extends Cubit<ReviewsDataState> {
         totalTime: totalTime,
         totalAnswers: totalAnswers,
         daysStudied: daysStudied.length,
-        daysInTimeRange: daysInTimeRange));
+        daysInTimeRange: daysInTimeRange,),);
   }
 }
 
@@ -102,7 +102,7 @@ sealed class ReviewsDataState with EquatableMixin {
       required int daysStudied,
       required double totalTime,
       required int totalAnswers,
-      required int daysInTimeRange}) = ReviewsDataReadyState;
+      required int daysInTimeRange,}) = ReviewsDataReadyState;
 }
 
 class ReviewsDataInitialState extends ReviewsDataState {
@@ -133,7 +133,7 @@ class ReviewsDataReadyState extends ReviewsDataState {
       required this.totalTime,
       required this.totalAnswers,
       required this.daysStudied,
-      required this.daysInTimeRange});
+      required this.daysInTimeRange,});
   final List<BarChartGroupData> barChartData;
   final double totalTime;
   final int totalAnswers;
