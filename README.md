@@ -10,8 +10,18 @@ Memo Deck to aplikacja do efektywnej nauki fiszek z powtórzeniami. Wykorzystuje
 </div>
 
 ## 🛠 Technologie 
-- Firebase – autoryzacja i storage, umożliwiające pracę na wielu urządzeniach i przechowywanie kart urzytkownika.
-- Algorytm SuperMemo – ocena opanowania kart i wyznaczanie optymalnych interwałów powtórek.
+## 🛠 Technologie
+
+W tym projekcie wykorzystano następujące technologie:
+
+- **Firebase** – użyte do autoryzacji użytkowników oraz przechowywania danych (storage). Firebase umożliwia synchronizację danych między różnymi urządzeniami oraz przechowywanie kart użytkownika w chmurze.
+  - [Firebase](https://firebase.google.com/)
+
+- **flutter_bloc** – biblioteka do zarządzania stanem aplikacji z użyciem wzorca BLoC (Business Logic Component). Pozwala na lepszą organizację kodu, szczególnie w większych aplikacjach, i oddziela logikę aplikacji od interfejsu użytkownika.
+  - [Bloc](https://pub.dev/packages/flutter_bloc)
+- **Algorytm SuperMemo** – implementacja algorytmu służącego do oceny opanowania kart oraz wyznaczania optymalnych interwałów powtórek. Algorytm ten jest używany do efektywnego nauczania i zapamiętywania informacji w systemie opartym na powtórkach z czasem.
+  - [SuperMemo](https://en.wikipedia.org/wiki/SuperMemo)
+
 
 ## 🎯 Funkcjonalności
 - Tworzenie i zarządzanie taliami fiszek.
