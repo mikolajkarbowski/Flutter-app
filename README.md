@@ -5,7 +5,6 @@ Memo Deck to aplikacja do efektywnej nauki fiszek z powtórzeniami. Wykorzystuje
 <div style="display: flex; align-items: center;">
   <img src="Images/Home.gif" alt="Opis obrazu" height="500" style="margin-right: 10px;">
   <img src="Images/quiz.gif" alt="Opis obrazu" height="500" style="margin-right: 10px;">
-  <img src="Images/HomePage_screenshot.jpg" alt="Opis obrazu" height="500" style="margin-right: 10px;">
   <img src="Images/Screenshot_20250312_162540.jpg" alt="Opis obrazu" height="500" style="margin-right: 10px;">
 </div>
 
